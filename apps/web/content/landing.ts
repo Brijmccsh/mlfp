@@ -46,18 +46,18 @@ export type FaqEntry = {
   answer: string;
 };
 
-export type ShortAnswer = {
-  name: string;
-  label: string;
-  placeholder: string;
-  maxLength: number;
-};
-
 export type SelectOption = { value: string; label: string };
 
-/** Canonical vocabulary. The API validates against this, so the two can’t drift. */
+export type FormField = { name: string; label: string; placeholder: string };
+
+export type EssayPrompt = { name: string; prompt: string; placeholder: string };
+
+/** Canonical vocabulary. The API validates against these, so the two can’t drift. */
 export const EDUCATION_LEVELS = ["high_school", "college"] as const;
 export type EducationLevel = (typeof EDUCATION_LEVELS)[number];
+
+export const COHORTS = ["fall_2026", "winter_2026", "spring_2027", "summer_2027"] as const;
+export type Cohort = (typeof COHORTS)[number];
 
 export const brand = {
   name: "Marketing Leaders Fellowship Program",
@@ -319,30 +319,109 @@ export const application = {
   eyebrow: "Applications open",
   heading: "Apply to the fellowship.",
   body: "Tell us who you are and why you want in. Applications are read individually and we respond to every one.",
+  selectPrompt: "Select one",
+  optionalHint: "Optional",
+
+  about: {
+    heading: "About you",
+    fullName: "Full name",
+    email: "Email",
+    phone: "Phone",
+    educationLevel: "Education level",
+    school: "School",
+    gradYear: "Graduation year",
+  },
+
   educationLevels: [
     { value: EDUCATION_LEVELS[0], label: "High school" },
     { value: EDUCATION_LEVELS[1], label: "College / university" },
   ] satisfies SelectOption[],
-  shortAnswers: [
-    {
-      name: "motivation",
-      label: "Why do you want to join the fellowship?",
-      placeholder: "A few sentences is plenty.",
-      maxLength: 800,
-    },
-    {
-      name: "campaign",
-      label: "Describe a campaign — from any brand — that you think actually worked. Why?",
-      placeholder: "We are more interested in your reasoning than in the brand you pick.",
-      maxLength: 800,
-    },
-    {
-      name: "outcome",
-      label: "What do you want to be able to do by the end of eight weeks?",
-      placeholder: "Be specific.",
-      maxLength: 800,
-    },
-  ] satisfies ShortAnswer[],
+
+  cohort: {
+    heading: "Cohort",
+    label: "Which cohort are you applying for?",
+    testScoreLabel: "PSAT / SAT / ACT score",
+    testScoreHint: "Your highest so far. Leave blank if you haven’t taken one.",
+    testScorePlaceholder: "e.g. 1380 SAT",
+  },
+
+  cohorts: [
+    { value: COHORTS[0], label: "Fall 2026" },
+    { value: COHORTS[1], label: "Winter 2026" },
+    { value: COHORTS[2], label: "Spring 2027" },
+    { value: COHORTS[3], label: "Summer 2027" },
+  ] satisfies SelectOption[],
+
+  activities: {
+    heading: "Top 5 extracurricular activities",
+    hint: "List up to five. At least one is required.",
+    max: 5,
+    addLabel: "Add another activity",
+    removeLabel: "Remove activity",
+    rowLabel: "Activity",
+    fields: [
+      {
+        name: "organization",
+        label: "Organization / activity",
+        placeholder: "e.g. DECA, school newspaper, family business",
+      },
+      {
+        name: "role",
+        label: "Leadership role / position",
+        placeholder: "e.g. Chapter President, Editor, Volunteer",
+      },
+      {
+        name: "description",
+        label: "Description",
+        placeholder: "What you did, and what came of it.",
+      },
+    ] satisfies FormField[],
+  },
+
+  honors: {
+    heading: "Honors and awards",
+    label: "Anything you’d like us to know about",
+    placeholder: "Awards, scholarships, recognitions — or leave this blank.",
+  },
+
+  links: {
+    heading: "Additional links",
+    hint: "Optional — paste links (LinkedIn, portfolio, or a shared resume URL).",
+    fields: [
+      { name: "resume", label: "Resume URL", placeholder: "https://…" },
+      { name: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/…" },
+      { name: "portfolio", label: "Portfolio or website", placeholder: "https://…" },
+      { name: "other", label: "Anything else", placeholder: "https://…" },
+    ] satisfies FormField[],
+  },
+
+  essays: {
+    heading: "Essays",
+    hint: "Three short essays, around 200–300 words each.",
+    minWords: 200,
+    maxWords: 300,
+    /** `{count}` is replaced with the live word count. */
+    counterTemplate: "{count} of 200–300 words",
+    items: [
+      {
+        name: "favorite_campaign",
+        prompt: "Tell us about a brand or ad campaign you love. Why does it stick with you?",
+        placeholder: "What it was, and why it stayed with you.",
+      },
+      {
+        name: "promoted_something",
+        prompt:
+          "Have you ever helped promote something (a club, event, small business, fundraiser)? What did you do?",
+        placeholder: "It does not have to be marketing work. Tell us what you actually did.",
+      },
+      {
+        name: "why_join",
+        prompt: "Why do you want to join the Marketing Leaders Fellowship Program?",
+        placeholder: "Be specific about what you want out of the eight weeks.",
+      },
+    ] satisfies EssayPrompt[],
+  },
+
   submitLabel: "Submit application",
   submittingLabel: "Submitting…",
   success: {
@@ -352,6 +431,8 @@ export const application = {
   error: {
     title: "That didn’t go through",
     body: "Something went wrong submitting your application. Please try again, or email us directly.",
+    duplicate: "You’ve already applied for this cohort.",
+    invalid: "Some answers need another look. Check the required fields and try again.",
   },
 } as const;
 

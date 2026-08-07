@@ -1,5 +1,5 @@
 /**
- * Hand-written until the Supabase project exists, then replaced wholesale by:
+ * Hand-written to match the live Supabase schema, then replaced wholesale by:
  *
  *   pnpm dlx supabase gen types typescript --project-id <id> \
  *     > packages/db/src/types.ts
@@ -7,22 +7,64 @@
  * Every client in this package is parameterised by `Database`, so regenerating
  * this file is all that is needed to get end-to-end typed queries.
  *
- * Schema lives in `packages/db/sql/`.
+ * Schema of record: `packages/db/sql/0001_applications.sql`.
  */
 
-/** Short-answer responses, keyed by question name. Free-form by design. */
-export type ApplicationAnswers = Record<string, string>;
+export type ApplicationStatus = "pending" | "approved" | "waitlisted" | "rejected";
+
+/** One extracurricular row. Only rows the applicant actually filled in are stored. */
+export type ApplicationActivity = {
+  organization: string;
+  role: string;
+  description: string;
+};
+
+/** The flexible half of an application, stored in the `details` jsonb column. */
+export type ApplicationDetails = {
+  extracurriculars: ApplicationActivity[];
+  honors_awards?: string;
+  links?: {
+    resume?: string;
+    linkedin?: string;
+    portfolio?: string;
+    other?: string;
+  };
+  essays: {
+    favorite_campaign: string;
+    promoted_something: string;
+    why_join: string;
+  };
+};
 
 type ApplicationRow = {
   id: string;
-  created_at: string;
+  status: ApplicationStatus;
+  cohort: string;
   full_name: string;
   email: string;
-  phone: string;
-  education_level: string;
-  school: string;
-  graduation_year: number;
-  answers: ApplicationAnswers;
+  phone: string | null;
+  education_level: string | null;
+  school: string | null;
+  grad_year: number | null;
+  test_score: string | null;
+  details: ApplicationDetails;
+  created_at: string;
+  updated_at: string;
+};
+
+type ApplicationInsert = Omit<
+  ApplicationRow,
+  "id" | "status" | "created_at" | "updated_at" | "phone" | "education_level" | "school" | "grad_year" | "test_score"
+> & {
+  id?: string;
+  status?: ApplicationStatus;
+  created_at?: string;
+  updated_at?: string;
+  phone?: string | null;
+  education_level?: string | null;
+  school?: string | null;
+  grad_year?: number | null;
+  test_score?: string | null;
 };
 
 export type Database = {
@@ -30,10 +72,7 @@ export type Database = {
     Tables: {
       applications: {
         Row: ApplicationRow;
-        Insert: Omit<ApplicationRow, "id" | "created_at"> & {
-          id?: string;
-          created_at?: string;
-        };
+        Insert: ApplicationInsert;
         Update: Partial<ApplicationRow>;
         Relationships: [];
       };
