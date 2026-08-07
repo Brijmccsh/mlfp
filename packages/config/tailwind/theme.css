@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+/* Components live outside each app, so Tailwind is told about them explicitly.
+   Each app adds an @source for its own directory. */
+@source "../../ui/src";
+
+/* Theme is driven by a `.dark` class on <html> (set by next-themes),
+   not by prefers-color-scheme alone. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BRAND CONSTANTS
+   The three fixed brand values. Everything below is derived from these or
+   from neutrals — these are the only raw brand colours in the system.
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Sampled from the logo lockup. Do not "improve" these. */
+  --brand-ink: #0a1c48;
+  --brand-blue: #4080f0;
+  --brand-gold: #e0a526;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SEMANTIC TOKENS — LIGHT (default)
+   Components reference these names only, never a hex value.
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-muted: #f4f6fb;
+
+  --foreground: var(--brand-ink);
+  --foreground-muted: #56678f;
+  --foreground-subtle: #7885a5;
+
+  --border: #e3e8f1;
+  --border-strong: #c6ccdd;
+
+  /* Brand blue, for fills that carry no text: spotlight, progress, icon chips,
+     focus ring. White on it is only 3.8:1, so text never sits directly on it. */
+  --primary: var(--brand-blue);
+  /* One step deeper, for solid surfaces that DO carry text. White passes here. */
+  --primary-strong: #2a6be0;
+  --primary-hover: #1f5ac9;
+  --primary-foreground: #ffffff;
+  --primary-subtle: #edf3fe;
+  --primary-subtle-foreground: #184eaa;
+
+  --accent: var(--brand-gold);
+  --accent-hover: #c78f18;
+  --accent-foreground: var(--brand-ink);
+  --accent-subtle: #fbf3e0;
+  --accent-subtle-foreground: #7a5806;
+
+  --destructive: #d92d20;
+  --destructive-foreground: #ffffff;
+
+  --success: #067647;
+  --success-foreground: #ffffff;
+
+  --ring: var(--brand-blue);
+
+  /* Soft brand glow behind hero headings — the deck's spotlight vignette.
+     Written with an explicit alpha rather than color-mix(), which would leave
+     an opaque blue fallback in browsers that lack it. Channels are --brand-blue. */
+  --spotlight: rgb(64 128 240 / 0.18);
+
+  --shadow-color: 10 28 72;
+  --shadow-opacity-weak: 0.06;
+  --shadow-opacity-strong: 0.12;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SEMANTIC TOKENS — DARK
+   Same names, different values. No component knows the theme changed.
+   ══════════════════════════════════════════════════════════════════════════ */
+.dark {
+  --background: #050e24;
+  --surface: var(--brand-ink);
+  --surface-muted: #122a5c;
+
+  --foreground: #edf2fb;
+  --foreground-muted: #9da9c8;
+  --foreground-subtle: #7381a6;
+
+  --border: #1c2d57;
+  --border-strong: #2a4074;
+
+  /* On dark, the lifted blue already passes with dark text, so strong == base. */
+  --primary: #689bf3;
+  --primary-strong: #689bf3;
+  --primary-hover: #8ab3f7;
+  --primary-foreground: #04122e;
+  --primary-subtle: #13294f;
+  --primary-subtle-foreground: #afc9fb;
+
+  --accent: #e8b547;
+  --accent-hover: #f0c766;
+  --accent-foreground: var(--brand-ink);
+  --accent-subtle: #2a2313;
+  --accent-subtle-foreground: #f0c766;
+
+  --destructive: #f04438;
+  --destructive-foreground: #1a0705;
+
+  --success: #47cd89;
+  --success-foreground: #04140c;
+
+  --ring: #689bf3;
+
+  /* Channels are the dark-theme --primary. */
+  --spotlight: rgb(104 155 243 / 0.26);
+
+  --shadow-color: 0 0 0;
+  --shadow-opacity-weak: 0.4;
+  --shadow-opacity-strong: 0.6;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   TAILWIND SCALE MAPPING
+   `inline` keeps the var() reference in the generated utility, which is what
+   makes a single class work in both themes.
+   ══════════════════════════════════════════════════════════════════════════ */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-subtle-foreground: var(--primary-subtle-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-subtle-foreground: var(--accent-subtle-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-ring: var(--ring);
+  --color-spotlight: var(--spotlight);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   TYPE, SPACE, RADIUS, MOTION
+   Theme-independent — these do not change between light and dark.
+   ══════════════════════════════════════════════════════════════════════════ */
+@theme {
+  /* Fonts are loaded by next/font, which exposes these two variables. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, sans-serif;
+
+  /* Editorial display scale. Tight tracking, tight leading. */
+  --text-display-sm: 2rem;
+  --text-display-sm--line-height: 1.15;
+  --text-display-sm--letter-spacing: -0.02em;
+  --text-display-sm--font-weight: 600;
+
+  --text-display-md: 2.75rem;
+  --text-display-md--line-height: 1.1;
+  --text-display-md--letter-spacing: -0.025em;
+  --text-display-md--font-weight: 600;
+
+  --text-display-lg: 3.75rem;
+  --text-display-lg--line-height: 1.05;
+  --text-display-lg--letter-spacing: -0.03em;
+  --text-display-lg--font-weight: 600;
+
+  --text-display-xl: 5rem;
+  --text-display-xl--line-height: 1;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-xl--font-weight: 600;
+
+  /* Eyebrow / overline text. */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.2;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-eyebrow--font-weight: 600;
+
+  /* 4px grid. Tailwind's default spacing unit is already 0.25rem; stated
+     here so the grid is explicit rather than inherited by accident. */
+  --spacing: 0.25rem;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  --shadow-xs: 0 1px 2px 0 rgb(var(--shadow-color) / var(--shadow-opacity-weak));
+  --shadow-sm: 0 1px 3px 0 rgb(var(--shadow-color) / var(--shadow-opacity-weak)),
+    0 1px 2px -1px rgb(var(--shadow-color) / var(--shadow-opacity-weak));
+  --shadow-md: 0 4px 12px -2px rgb(var(--shadow-color) / var(--shadow-opacity-weak)),
+    0 2px 6px -2px rgb(var(--shadow-color) / var(--shadow-opacity-weak));
+  --shadow-lg: 0 12px 32px -8px rgb(var(--shadow-color) / var(--shadow-opacity-strong));
+
+  /* Motion: subtle and quick. 150ms default, 200ms for anything that moves. */
+  --default-transition-duration: 150ms;
+  --default-transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasis: cubic-bezier(0.2, 0, 0, 1);
+
+  --animate-accordion-down: accordion-down 200ms cubic-bezier(0.2, 0, 0, 1);
+  --animate-accordion-up: accordion-up 200ms cubic-bezier(0.2, 0, 0, 1);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BASE LAYER
+   ══════════════════════════════════════════════════════════════════════════ */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@mlfp/app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mlfp/db": "workspace:*",
+    "@mlfp/ui": "workspace:*",
+    "lucide-react": "^1.28.0",
+    "next": "15.5.22",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@mlfp/config": "workspace:*",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^22.19.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "eslint": "^9.39.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3"
+  }
+}

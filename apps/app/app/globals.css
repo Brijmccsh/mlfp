@@ -1,0 +1,4 @@
+@import "@mlfp/config/tailwind/theme.css";
+
+/* Tailwind also scans this app's own source. */
+@source "../";

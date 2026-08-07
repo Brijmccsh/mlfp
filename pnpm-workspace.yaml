@@ -1,0 +1,15 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+allowBuilds:
+  # Native image pipeline used by next/image.
+  sharp: true
+  # Native module resolver used by the eslint import plugin.
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@supabase/auth-js@2.112.1'
+  - '@supabase/functions-js@2.112.1'
+  - '@supabase/postgrest-js@2.112.1'
+  - '@supabase/realtime-js@2.112.1'
+  - '@supabase/storage-js@2.112.1'
+  - '@supabase/supabase-js@2.112.1'
