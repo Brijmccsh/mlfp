@@ -83,25 +83,28 @@ export const nav = {
 } as const;
 
 export const hero = {
-  eyebrow: "8-Week Experiential Fellowship",
+  eyebrow: "Marketing Leaders Fellowship Program · 8 Weeks",
   headline: ["Learn Marketing.", "Lead What’s Next."],
-  body: "An eight-week experiential fellowship led by Chad Tons, Founder & CEO of Infinity Marketing Team. Learn how real campaigns get built — then build one yourself.",
+  body: "An 8-week experiential fellowship where ambitious students learn to build real marketing campaigns — take on a live client brief, pitch it to industry leaders, and graduate with a portfolio-ready project and a recognized certificate.",
+  /** Rendered as a single separated row under the CTAs. */
+  valueRow: ["Real campaigns", "Live client brief", "Certificate of completion"],
   primaryCta: { label: "Apply Now", href: "#apply" },
   secondaryCta: { label: "See the program", href: "#program" },
   image: {
     src: "/team/chad-tons-hero.jpg",
-    alt: "Chad Tons, Founder & CEO of Infinity Marketing Team",
-    width: 3605,
-    height: 5400,
+    alt: "Chad Tons, guest professor",
+    width: 1068,
+    height: 1600,
   } satisfies Asset,
   caption: {
+    label: "Featuring Guest Professor",
     name: "Chad Tons",
     role: "Founder & CEO, Infinity Marketing Team",
   },
 } as const;
 
 export const credibility = {
-  lead: "Led by the mind behind campaigns for some of the world’s biggest brands.",
+  lead: "Built on the playbook behind campaigns for some of the world’s biggest brands.",
   points: [
     "Three decades building integrated campaigns that moved markets.",
     "Founder of a full-service agency trusted with nine-figure budgets.",
@@ -128,7 +131,7 @@ export const program = {
       eyebrow: "Weeks 1–4",
       title: "Self-Paced Learning",
       description:
-        "Four modules taught by Chad Tons, covering how an agency runs, how a brand defines itself, and how a 360 campaign is designed from brief to buy.",
+        "Four modules built on Chad Tons’ real agency playbook, covering how an agency runs, how a brand defines itself, and how a 360 campaign is designed from brief to buy.",
       detail: "Roughly 3–5 hours per week, on your own schedule.",
     },
     {
@@ -204,7 +207,7 @@ export const challenge = {
     {
       title: "Pitch it live",
       description:
-        "Present to Chad Tons directly. Defend the strategy, take the questions, and find out how the work holds up.",
+        "Pitch live to guest professor Chad Tons and industry leaders. Defend the strategy, take the questions, and find out how the work holds up.",
     },
   ] satisfies ChallengeStep[],
 } as const;
@@ -233,21 +236,23 @@ export const outcomes = {
 } as const;
 
 export const about = {
-  eyebrow: "Who leads it",
+  eyebrow: "Our guest professor",
   heading: "Chad Tons",
   role: "Founder & CEO, Infinity Marketing Team",
+  /** First paragraph is rendered as the lead. */
   body: [
-    "Chad Tons has spent his career building integrated campaigns for brands operating at national scale — the kind of work where strategy, media, creative, and measurement have to move as one or not at all.",
-    "He founded Infinity Marketing Team to do that work end to end, and built the fellowship because the gap between how marketing is taught and how it is practised kept showing up in the people he hired.",
-    "He teaches every module himself, and sits in the room for every final pitch.",
+    "The Marketing Leaders Fellowship Program is proud to feature Chad Tons as our guest professor.",
+    "He has spent his career building integrated campaigns for brands operating at national scale — the kind of work where strategy, media, creative, and measurement have to move as one or not at all. He founded Infinity Marketing Team to do exactly that, end to end.",
+    "He brings that agency playbook straight into the curriculum. The frameworks behind the modules are the ones his teams use on live accounts, not textbook versions of them.",
+    "He teaches live sessions across the program, and sits on the panel that judges the final pitch.",
   ],
   quote:
     "Great marketing doesn’t just sell — it moves people, shifts culture, and drives real impact.",
   image: {
     src: "/team/chad-tons-about.jpg",
-    alt: "Chad Tons",
-    width: 3605,
-    height: 5400,
+    alt: "Chad Tons, guest professor",
+    width: 1068,
+    height: 1600,
   } satisfies Asset,
 } as const;
 

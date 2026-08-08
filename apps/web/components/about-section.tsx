@@ -23,8 +23,15 @@ export function AboutSection() {
           <p className="mt-3 text-lg text-foreground-muted">{about.role}</p>
 
           <div className="mt-8 flex flex-col gap-5">
-            {about.body.map((paragraph) => (
-              <p key={paragraph} className="text-lg leading-relaxed text-foreground-muted">
+            {about.body.map((paragraph, index) => (
+              <p
+                key={paragraph}
+                className={
+                  index === 0
+                    ? "text-xl leading-relaxed text-foreground"
+                    : "text-lg leading-relaxed text-foreground-muted"
+                }
+              >
                 {paragraph}
               </p>
             ))}

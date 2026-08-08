@@ -40,6 +40,19 @@ export function HeroSection() {
               <a href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>
             </Button>
           </div>
+
+          <ul className="mt-9 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-medium text-foreground-muted">
+            {hero.valueRow.map((item, index) => (
+              <li key={item} className="flex items-center gap-3">
+                {index > 0 ? (
+                  <span aria-hidden className="text-border-strong">
+                    ·
+                  </span>
+                ) : null}
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <figure className="relative">
@@ -50,7 +63,10 @@ export function HeroSection() {
             sizes="(min-width: 1024px) 46vw, 100vw"
             className="aspect-4/5 w-full rounded-2xl shadow-lg"
           />
-          <figcaption className="mt-5 flex flex-col gap-0.5 border-l-2 border-accent pl-4">
+          <figcaption className="mt-5 flex flex-col gap-1 border-l-2 border-accent pl-4">
+            <span className="text-eyebrow text-accent-subtle-foreground uppercase">
+              {hero.caption.label}
+            </span>
             <span className="font-display font-semibold">{hero.caption.name}</span>
             <span className="text-sm text-foreground-muted">{hero.caption.role}</span>
           </figcaption>
