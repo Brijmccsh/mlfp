@@ -4,6 +4,12 @@ import { cn } from "../lib/cn";
 
 type LogoProps = {
   src: string;
+  /**
+   * Reversed artwork for dark surfaces. When supplied, the two files are
+   * swapped by the `dark` variant, which keeps the brand blue intact.
+   * Without it, dark mode falls back to a flat white knockout of `src`.
+   */
+  srcDark?: string;
   alt: string;
   /** Intrinsic dimensions of the artwork, so Next can reserve the right box. */
   width: number;
@@ -12,23 +18,29 @@ type LogoProps = {
   priority?: boolean;
 };
 
-/**
- * The brand lockup. Height is set by the caller; width follows the artwork.
- *
- * The supplied PNG draws "LEADERS" in brand ink, which disappears against a
- * dark surface, so dark mode renders the lockup as a solid white knockout.
- * Replace this with a real dark-variant asset when one exists.
- */
-export function Logo({ src, alt, width, height, className, priority }: LogoProps) {
+export function Logo({
+  src,
+  srcDark,
+  alt,
+  width,
+  height,
+  className,
+  priority,
+}: LogoProps) {
+  const shared = { alt, width, height, priority };
+  const base = cn("h-8 w-auto", className);
+
+  if (!srcDark) {
+    return (
+      <Image src={src} {...shared} className={cn(base, "dark:brightness-0 dark:invert")} />
+    );
+  }
+
   return (
-    <Image
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      priority={priority}
-      className={cn("h-8 w-auto dark:brightness-0 dark:invert", className)}
-    />
+    <>
+      <Image src={src} {...shared} className={cn(base, "dark:hidden")} />
+      <Image src={srcDark} {...shared} className={cn(base, "hidden dark:block")} />
+    </>
   );
 }
 

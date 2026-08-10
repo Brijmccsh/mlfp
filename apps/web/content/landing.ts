@@ -48,6 +48,23 @@ export type FaqEntry = {
 
 export type SelectOption = { value: string; label: string };
 
+/** Keys the hero maps to lucide icons. */
+export type FeatureIcon = "target" | "lightbulb" | "users" | "trophy";
+
+export type HeroFeature = {
+  icon: FeatureIcon;
+  title: string;
+  description: string;
+};
+
+export type PressItem = {
+  title: string;
+  /** null renders a placeholder tile until the real asset lands. */
+  image: string | null;
+  /** null renders a non-interactive card until the real URL lands. */
+  href: string | null;
+};
+
 export type FormField = { name: string; label: string; placeholder: string };
 
 export type EssayPrompt = { name: string; prompt: string; placeholder: string };
@@ -65,10 +82,12 @@ export const brand = {
   email: "admin@themlfp.com",
   logo: {
     src: "/brand/mlfp-logo-horizontal.png",
+    /** Reversed lockup: white wordmark, brand blue preserved. Reads on navy. */
+    srcDark: "/brand/mlfp-logo-horizontal-light.png",
     alt: "Marketing Leaders Fellowship Program",
     width: 1600,
     height: 421,
-  } satisfies Asset,
+  },
 } as const;
 
 export const nav = {
@@ -83,23 +102,49 @@ export const nav = {
 } as const;
 
 export const hero = {
-  eyebrow: "Marketing Leaders Fellowship Program · 8 Weeks",
-  headline: ["Learn Marketing.", "Lead What’s Next."],
-  body: "An 8-week experiential fellowship where ambitious students learn to build real marketing campaigns — take on a live client brief, pitch it to industry leaders, and graduate with a portfolio-ready project and a recognized certificate.",
-  /** Rendered as a single separated row under the CTAs. */
-  valueRow: ["Real campaigns", "Live client brief", "Certificate of completion"],
+  pill: "8-Week Experiential Fellowship",
+  headline: {
+    lead: "Learn the strategies, frameworks, and creative thinking behind building",
+    /** Rendered in brand blue. */
+    highlight: "award-winning, 360-degree marketing campaigns.",
+  },
+  body: "An immersive, real-world fellowship for the next generation of marketing leaders. Taught by industry experts. Built for impact.",
+  features: [
+    {
+      icon: "target",
+      title: "Real Campaigns",
+      description: "Work on live brand challenges.",
+    },
+    {
+      icon: "lightbulb",
+      title: "Expert Mentorship",
+      description: "Learn from top industry leaders.",
+    },
+    {
+      icon: "users",
+      title: "Collaborative Teams",
+      description: "Solve big problems together.",
+    },
+    {
+      icon: "trophy",
+      title: "Recognition",
+      description: "Earn a certificate of completion.",
+    },
+  ] satisfies HeroFeature[],
   primaryCta: { label: "Apply Now", href: "#apply" },
-  secondaryCta: { label: "See the program", href: "#program" },
+  secondaryCta: { label: "Explore the Program", href: "#program" },
   image: {
     src: "/team/chad-tons-hero.jpg",
-    alt: "Chad Tons, guest professor",
+    alt: "Chad Tons, guest instructor",
     width: 1068,
     height: 1600,
   } satisfies Asset,
-  caption: {
-    label: "Featuring Guest Professor",
+  card: {
+    eyebrow: "Guest Instructor",
     name: "Chad Tons",
     role: "Founder & CEO, Infinity Marketing Team",
+    quote:
+      "I’ve built campaigns that move markets, win awards, and break through the noise. Now, I’m here to help you do the same.",
   },
 } as const;
 
@@ -207,7 +252,7 @@ export const challenge = {
     {
       title: "Pitch it live",
       description:
-        "Pitch live to guest professor Chad Tons and industry leaders. Defend the strategy, take the questions, and find out how the work holds up.",
+        "Pitch live to guest instructor Chad Tons and industry leaders. Defend the strategy, take the questions, and find out how the work holds up.",
     },
   ] satisfies ChallengeStep[],
 } as const;
@@ -236,24 +281,49 @@ export const outcomes = {
 } as const;
 
 export const about = {
-  eyebrow: "Our guest professor",
+  eyebrow: "Who leads it",
   heading: "Chad Tons",
   role: "Founder & CEO, Infinity Marketing Team",
-  /** First paragraph is rendered as the lead. */
   body: [
-    "The Marketing Leaders Fellowship Program is proud to feature Chad Tons as our guest professor.",
-    "He has spent his career building integrated campaigns for brands operating at national scale — the kind of work where strategy, media, creative, and measurement have to move as one or not at all. He founded Infinity Marketing Team to do exactly that, end to end.",
-    "He brings that agency playbook straight into the curriculum. The frameworks behind the modules are the ones his teams use on live accounts, not textbook versions of them.",
-    "He teaches live sessions across the program, and sits on the panel that judges the final pitch.",
+    "Chad Tons has spent his career building integrated campaigns for brands operating at national scale — the kind of work where strategy, media, creative, and measurement have to move as one or not at all.",
+    "He founded Infinity Marketing Team to do that work end to end, and built the fellowship because the gap between how marketing is taught and how it is practised kept showing up in the people he hired.",
+    "He teaches every module himself, and sits in the room for every final pitch.",
   ],
   quote:
     "Great marketing doesn’t just sell — it moves people, shifts culture, and drives real impact.",
+  quoteAttribution: {
+    name: "Chad Tons",
+    role: "Founder & CEO, Infinity Marketing Team",
+  },
   image: {
     src: "/team/chad-tons-about.jpg",
-    alt: "Chad Tons, guest professor",
+    alt: "Chad Tons",
     width: 1068,
     height: 1600,
   } satisfies Asset,
+  press: {
+    heading: "Appearances and press",
+    // TODO: replace `image` and `href` on each item once the real assets and
+    // article URLs are supplied. Until then each card renders a placeholder
+    // tile and is not clickable.
+    items: [
+      {
+        title: "Tons Keynotes USC Marshall Summit",
+        image: null,
+        href: null,
+      },
+      {
+        title: "Tons Keynotes Pico Global Conference",
+        image: null,
+        href: null,
+      },
+      {
+        title: "Chad Tons Family Café Unveiled at Fertitta Hall",
+        image: null,
+        href: null,
+      },
+    ] satisfies PressItem[],
+  },
 } as const;
 
 export const value = {

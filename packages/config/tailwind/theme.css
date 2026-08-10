@@ -122,6 +122,12 @@
    makes a single class work in both themes.
    ══════════════════════════════════════════════════════════════════════════ */
 @theme inline {
+  /* Brand constants, theme-independent. For the rare case where a surface is
+     always dark (the hero band) and needs the literal brand blue rather than
+     the theme's primary. */
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-ink: var(--brand-ink);
+
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
