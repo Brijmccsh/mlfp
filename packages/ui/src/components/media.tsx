@@ -8,6 +8,11 @@ type MediaProps = {
   /** Responsive hint for the image loader. */
   sizes?: string;
   priority?: boolean;
+  /**
+   * CSS `object-position`, e.g. `"center 45%"`. Aims the crop when the source
+   * and the frame disagree on aspect ratio. Defaults to centre.
+   */
+  objectPosition?: string;
   /** Owns the aspect ratio, radius and crop. */
   className?: string;
   imageClassName?: string;
@@ -22,6 +27,7 @@ export function Media({
   alt,
   sizes = "100vw",
   priority,
+  objectPosition,
   className,
   imageClassName,
 }: MediaProps) {
@@ -33,6 +39,7 @@ export function Media({
         fill
         sizes={sizes}
         priority={priority}
+        style={objectPosition ? { objectPosition } : undefined}
         className={cn("object-cover", imageClassName)}
       />
     </div>

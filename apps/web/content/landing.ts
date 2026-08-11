@@ -61,6 +61,11 @@ export type PressItem = {
   title: string;
   /** null renders a placeholder tile until the real asset lands. */
   image: string | null;
+  /**
+   * CSS object-position aiming the 3:2 crop. Only needed where the source
+   * aspect differs enough that centring would cut something that matters.
+   */
+  focal?: string;
   /** null renders a non-interactive card until the real URL lands. */
   href: string | null;
 };
@@ -303,24 +308,29 @@ export const about = {
   } satisfies Asset,
   press: {
     heading: "Appearances and press",
-    // TODO: replace `image` and `href` on each item once the real assets and
-    // article URLs are supplied. Until then each card renders a placeholder
-    // tile and is not clickable.
     items: [
       {
         title: "Tons Keynotes USC Marshall Summit",
-        image: null,
-        href: null,
+        image: "/press/usc-marshall-summit.jpg",
+        // Portrait source in a 3:2 frame. Biased slightly high so the summit
+        // screen and Chad's head both survive the crop.
+        focal: "center 42%",
+        href: "https://www.marshall.usc.edu/posts/marshall-alumni-reconnect-at-leadership-summit",
       },
       {
         title: "Tons Keynotes Pico Global Conference",
-        image: null,
-        href: null,
+        // Source is already 3:2, so it needs no focal adjustment.
+        image: "/press/pico-international-conference.jpg",
+        // Canonical permalink. The share link this came from carried utm_* and
+        // an `rcm` token tied to the sharer's account; both are stripped.
+        href: "https://www.linkedin.com/posts/chadtons_always-a-highlight-to-end-my-year-imt-and-activity-7407860934221869056-pWOo",
       },
       {
         title: "Chad Tons Family Café Unveiled at Fertitta Hall",
-        image: null,
-        href: null,
+        // 16:9 source: wider than the frame, so it crops at the sides only and
+        // the café signage above the group is never at risk. No focal needed.
+        image: "/press/chad-tons-family-cafe.jpg",
+        href: "https://www.marshall.usc.edu/posts/chad-tons-caf-unveiled-in-fertitta-hall",
       },
     ] satisfies PressItem[],
   },
