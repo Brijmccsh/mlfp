@@ -1,6 +1,5 @@
 import { Container, Media } from "@mlfp/ui";
 
-import { PressCard } from "@/components/press-card";
 import { about } from "@/content/landing";
 
 export function AboutSection() {
@@ -43,16 +42,6 @@ export function AboutSection() {
           </div>
         </div>
 
-        <div className="mt-20">
-          <h3 className="text-eyebrow text-foreground-subtle uppercase">
-            {about.press.heading}
-          </h3>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
-            {about.press.items.map((item) => (
-              <PressCard key={item.title} {...item} />
-            ))}
-          </div>
-        </div>
       </Container>
     </section>
   );

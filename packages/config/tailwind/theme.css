@@ -52,6 +52,11 @@
   --accent-subtle: #fbf3e0;
   --accent-subtle-foreground: #7a5806;
 
+  /* Third accent, used only to distinguish the phase cards from one another. */
+  --accent-violet: #7c5cff;
+  --accent-violet-subtle: #f1eeff;
+  --accent-violet-subtle-foreground: #4c33cc;
+
   --destructive: #d92d20;
   --destructive-foreground: #ffffff;
 
@@ -99,6 +104,10 @@
   --accent-foreground: var(--brand-ink);
   --accent-subtle: #2a2313;
   --accent-subtle-foreground: #f0c766;
+
+  --accent-violet: #9b83ff;
+  --accent-violet-subtle: #201a3d;
+  --accent-violet-subtle-foreground: #b9a8ff;
 
   --destructive: #f04438;
   --destructive-foreground: #1a0705;
@@ -152,6 +161,10 @@
   --color-accent-subtle: var(--accent-subtle);
   --color-accent-subtle-foreground: var(--accent-subtle-foreground);
 
+  --color-accent-violet: var(--accent-violet);
+  --color-accent-violet-subtle: var(--accent-violet-subtle);
+  --color-accent-violet-subtle-foreground: var(--accent-violet-subtle-foreground);
+
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
@@ -191,6 +204,14 @@
   --text-display-xl--line-height: 1;
   --text-display-xl--letter-spacing: -0.035em;
   --text-display-xl--font-weight: 600;
+
+  /* Hero headline. Scales on the SMALLER of viewport width and height, so a
+     short laptop screen (1440x800) shrinks the type instead of pushing the
+     hero below the fold. */
+  --text-hero: clamp(1.75rem, min(2vw, 3.1vh) + 0.9rem, 2.9rem);
+  --text-hero--line-height: 1.08;
+  --text-hero--letter-spacing: -0.025em;
+  --text-hero--font-weight: 600;
 
   /* Eyebrow / overline text. */
   --text-eyebrow: 0.75rem;

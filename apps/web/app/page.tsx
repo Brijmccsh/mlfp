@@ -1,10 +1,10 @@
 import { AboutSection } from "@/components/about-section";
 import { ApplicationSection } from "@/components/application-section";
-import { ChallengeSection } from "@/components/challenge-section";
 import { CredibilityStrip } from "@/components/credibility-strip";
 import { FaqSection } from "@/components/faq-section";
 import { HeroSection } from "@/components/hero-section";
-import { ModulesSection } from "@/components/modules-section";
+import { JourneySection } from "@/components/journey-section";
+import { PressSection } from "@/components/press-section";
 import { OutcomesSection } from "@/components/outcomes-section";
 import { ProgramSection } from "@/components/program-section";
 import { SiteFooter } from "@/components/site-footer";
@@ -18,13 +18,13 @@ export default function LandingPage() {
       <SiteHeader />
       <main>
         <HeroSection />
+        <AboutSection />
+        <PressSection />
+        <ProgramSection />
         <CredibilityStrip />
         <SummarySection />
-        <ProgramSection />
-        <ModulesSection />
-        <ChallengeSection />
+        <JourneySection />
         <OutcomesSection />
-        <AboutSection />
         <ValueSection />
         <FaqSection />
         <ApplicationSection />

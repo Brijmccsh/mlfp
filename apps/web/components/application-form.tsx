@@ -1,10 +1,21 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type FormEvent, type ReactNode } from "react";
 
-import { CheckCircle2, Plus, X } from "lucide-react";
+import {
+  Award,
+  CheckCircle2,
+  Link2,
+  PenLine,
+  Plus,
+  Star,
+  User,
+  Users,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 
-import { Button, Input, Label, Select, Textarea, cn } from "@mlfp/ui";
+import { Button, IconChip, Input, Label, NumberBadge, Select, Textarea, cn } from "@mlfp/ui";
 
 import { application } from "@/content/landing";
 
@@ -27,6 +38,45 @@ function readActivities(form: FormData, rowCount: number) {
         String(form.get(`activity-${index}-${field.name}`) ?? ""),
       ]),
     ),
+  );
+}
+
+/** A labelled group: icon chip + uppercase heading, with an optional hint. */
+function FieldGroup({
+  icon: Icon,
+  heading,
+  hint,
+  divided = true,
+  children,
+}: {
+  icon: LucideIcon;
+  heading: string;
+  hint?: string;
+  divided?: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <fieldset className={cn(divided && "mt-10 border-t border-border pt-9")}>
+      <legend className="sr-only">{heading}</legend>
+      <div className="flex items-center gap-3.5">
+        <IconChip size="sm" aria-hidden>
+          <Icon />
+        </IconChip>
+        <p className="text-eyebrow text-primary-subtle-foreground uppercase">{heading}</p>
+      </div>
+      {hint ? <p className="mt-3 text-sm text-foreground-muted">{hint}</p> : null}
+      <div className="mt-6">{children}</div>
+    </fieldset>
+  );
+}
+
+/** Marks a control as optional without repeating the word in every label. */
+function Optional() {
+  return (
+    <span className="font-normal text-foreground-subtle">
+      {" "}
+      ({application.optionalHint})
+    </span>
   );
 }
 
@@ -91,7 +141,7 @@ export function ApplicationForm() {
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-start gap-4 rounded-xl border border-border bg-surface p-10">
+      <div className="flex flex-col items-start gap-4 rounded-2xl border border-border bg-surface p-10 shadow-sm">
         <CheckCircle2 aria-hidden className="size-8 text-success" />
         <h3 className="font-display text-2xl font-semibold">{application.success.title}</h3>
         <p className="max-w-md leading-relaxed text-foreground-muted">
@@ -104,15 +154,10 @@ export function ApplicationForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-xl border border-border bg-surface p-6 sm:p-10"
+      className="rounded-2xl border border-border bg-surface p-6 shadow-sm sm:p-10"
     >
-      {/* ── About you ─────────────────────────────────────────────── */}
-      <fieldset>
-        <legend className="text-eyebrow text-primary-subtle-foreground uppercase">
-          {application.about.heading}
-        </legend>
-
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+      <FieldGroup icon={User} heading={application.about.heading} divided={false}>
+        <div className="grid gap-5 sm:grid-cols-2">
           <div className="flex flex-col gap-2 sm:col-span-2">
             <Label htmlFor="fullName">{application.about.fullName}</Label>
             <Input id="fullName" name="fullName" required autoComplete="name" />
@@ -125,10 +170,8 @@ export function ApplicationForm() {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="phone">
-              {application.about.phone}{" "}
-              <span className="font-normal text-foreground-subtle">
-                ({application.optionalHint})
-              </span>
+              {application.about.phone}
+              <Optional />
             </Label>
             <Input id="phone" name="phone" type="tel" autoComplete="tel" />
           </div>
@@ -149,10 +192,8 @@ export function ApplicationForm() {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="gradYear">
-              {application.about.gradYear}{" "}
-              <span className="font-normal text-foreground-subtle">
-                ({application.optionalHint})
-              </span>
+              {application.about.gradYear}
+              <Optional />
             </Label>
             <Input
               id="gradYear"
@@ -166,23 +207,16 @@ export function ApplicationForm() {
 
           <div className="flex flex-col gap-2 sm:col-span-2">
             <Label htmlFor="school">
-              {application.about.school}{" "}
-              <span className="font-normal text-foreground-subtle">
-                ({application.optionalHint})
-              </span>
+              {application.about.school}
+              <Optional />
             </Label>
             <Input id="school" name="school" autoComplete="organization" />
           </div>
         </div>
-      </fieldset>
+      </FieldGroup>
 
-      {/* ── Cohort ────────────────────────────────────────────────── */}
-      <fieldset className="mt-10 border-t border-border pt-8">
-        <legend className="text-eyebrow text-primary-subtle-foreground uppercase">
-          {application.cohort.heading}
-        </legend>
-
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+      <FieldGroup icon={Users} heading={application.cohort.heading}>
+        <div className="grid gap-5 sm:grid-cols-2">
           <div className="flex flex-col gap-2">
             <Label htmlFor="cohort">{application.cohort.label}</Label>
             <Select id="cohort" name="cohort" required defaultValue="">
@@ -199,10 +233,8 @@ export function ApplicationForm() {
 
           <div className="flex flex-col gap-2">
             <Label htmlFor="testScore">
-              {application.cohort.testScoreLabel}{" "}
-              <span className="font-normal text-foreground-subtle">
-                ({application.optionalHint})
-              </span>
+              {application.cohort.testScoreLabel}
+              <Optional />
             </Label>
             <Input
               id="testScore"
@@ -214,22 +246,25 @@ export function ApplicationForm() {
             </p>
           </div>
         </div>
-      </fieldset>
+      </FieldGroup>
 
-      {/* ── Extracurriculars ──────────────────────────────────────── */}
-      <fieldset className="mt-10 border-t border-border pt-8">
-        <legend className="text-eyebrow text-primary-subtle-foreground uppercase">
-          {application.activities.heading}
-        </legend>
-        <p className="mt-3 text-sm text-foreground-muted">{application.activities.hint}</p>
-
-        <div className="mt-6 flex flex-col gap-5">
+      <FieldGroup
+        icon={Star}
+        heading={application.activities.heading}
+        hint={application.activities.hint}
+      >
+        <div className="flex flex-col gap-5">
           {Array.from({ length: activityRows }, (_, index) => (
-            <div key={index} className="rounded-lg border border-border bg-surface-muted p-5">
+            <div key={index} className="rounded-xl border border-border bg-surface-muted p-5">
               <div className="flex items-center justify-between gap-4">
-                <span className="font-display text-sm font-semibold">
-                  {application.activities.rowLabel} {index + 1}
-                </span>
+                <div className="flex items-center gap-3">
+                  <NumberBadge tone="subtle" size="sm">
+                    {index + 1}
+                  </NumberBadge>
+                  <span className="font-display text-sm font-semibold">
+                    {application.activities.rowLabel} {index + 1}
+                  </span>
+                </div>
                 {index === activityRows - 1 && activityRows > 1 ? (
                   <Button
                     type="button"
@@ -277,31 +312,22 @@ export function ApplicationForm() {
         </div>
 
         {activityRows < application.activities.max ? (
-          <Button
+          <button
             type="button"
-            variant="outline"
-            size="sm"
-            className="mt-5"
             onClick={() => setActivityRows((rows) => rows + 1)}
+            className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-border-strong py-3.5 text-sm font-medium text-foreground-muted transition-colors hover:border-primary hover:text-primary-subtle-foreground"
           >
-            <Plus />
+            <Plus className="size-4" />
             {application.activities.addLabel}
-          </Button>
+          </button>
         ) : null}
-      </fieldset>
+      </FieldGroup>
 
-      {/* ── Honors ────────────────────────────────────────────────── */}
-      <fieldset className="mt-10 border-t border-border pt-8">
-        <legend className="text-eyebrow text-primary-subtle-foreground uppercase">
-          {application.honors.heading}
-        </legend>
-
-        <div className="mt-6 flex flex-col gap-2">
+      <FieldGroup icon={Award} heading={application.honors.heading}>
+        <div className="flex flex-col gap-2">
           <Label htmlFor="honorsAwards">
-            {application.honors.label}{" "}
-            <span className="font-normal text-foreground-subtle">
-              ({application.optionalHint})
-            </span>
+            {application.honors.label}
+            <Optional />
           </Label>
           <Textarea
             id="honorsAwards"
@@ -309,16 +335,14 @@ export function ApplicationForm() {
             placeholder={application.honors.placeholder}
           />
         </div>
-      </fieldset>
+      </FieldGroup>
 
-      {/* ── Links ─────────────────────────────────────────────────── */}
-      <fieldset className="mt-10 border-t border-border pt-8">
-        <legend className="text-eyebrow text-primary-subtle-foreground uppercase">
-          {application.links.heading}
-        </legend>
-        <p className="mt-3 text-sm text-foreground-muted">{application.links.hint}</p>
-
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+      <FieldGroup
+        icon={Link2}
+        heading={application.links.heading}
+        hint={application.links.hint}
+      >
+        <div className="grid gap-5 sm:grid-cols-2">
           {application.links.fields.map((field) => (
             <div key={field.name} className="flex flex-col gap-2">
               <Label htmlFor={field.name}>{field.label}</Label>
@@ -331,16 +355,14 @@ export function ApplicationForm() {
             </div>
           ))}
         </div>
-      </fieldset>
+      </FieldGroup>
 
-      {/* ── Essays ────────────────────────────────────────────────── */}
-      <fieldset className="mt-10 border-t border-border pt-8">
-        <legend className="text-eyebrow text-primary-subtle-foreground uppercase">
-          {application.essays.heading}
-        </legend>
-        <p className="mt-3 text-sm text-foreground-muted">{application.essays.hint}</p>
-
-        <div className="mt-6 flex flex-col gap-8">
+      <FieldGroup
+        icon={PenLine}
+        heading={application.essays.heading}
+        hint={application.essays.hint}
+      >
+        <div className="flex flex-col gap-8">
           {ESSAYS.map((essay, index) => {
             const value = essayValues[essay.name] ?? "";
             const words = countWords(value);
@@ -380,25 +402,27 @@ export function ApplicationForm() {
             );
           })}
         </div>
-      </fieldset>
+      </FieldGroup>
 
       {status === "error" ? (
         <p
           role="alert"
-          className="mt-8 rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive"
+          className="mt-9 rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive"
         >
           <span className="font-medium">{application.error.title}.</span> {errorMessage}
         </p>
       ) : null}
 
-      <Button
-        type="submit"
-        size="lg"
-        className="mt-8 w-full sm:w-auto"
-        disabled={status === "submitting"}
-      >
-        {status === "submitting" ? application.submittingLabel : application.submitLabel}
-      </Button>
+      <div className="mt-10 flex justify-end border-t border-border pt-8">
+        <Button
+          type="submit"
+          size="lg"
+          className="w-full sm:w-auto"
+          disabled={status === "submitting"}
+        >
+          {status === "submitting" ? application.submittingLabel : application.submitLabel}
+        </Button>
+      </div>
     </form>
   );
 }

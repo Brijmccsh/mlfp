@@ -27,14 +27,26 @@ export function Logo({
   className,
   priority,
 }: LogoProps) {
-  const shared = { alt, width, height, priority };
   const base = cn("h-8 w-auto", className);
 
   if (!srcDark) {
     return (
-      <Image src={src} {...shared} className={cn(base, "dark:brightness-0 dark:invert")} />
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        priority={priority}
+        className={cn(base, "dark:brightness-0 dark:invert")}
+      />
     );
   }
+
+  // Both variants are in the DOM and CSS picks one, so `priority` is dropped
+  // here: preloading both would always waste one and the browser logs the
+  // unused preload as a console warning. The lockup is small enough that
+  // normal loading is imperceptible.
+  const shared = { alt, width, height };
 
   return (
     <>

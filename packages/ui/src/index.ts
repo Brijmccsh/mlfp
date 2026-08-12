@@ -16,10 +16,18 @@ export {
   CardTitle,
 } from "./components/card";
 export { Container, type ContainerProps } from "./components/container";
+export { DottedGrid, type DottedGridProps } from "./components/dotted-grid";
+export { Eyebrow, eyebrowVariants, type EyebrowProps } from "./components/eyebrow";
+export { IconChip, iconChipVariants, type IconChipProps } from "./components/icon-chip";
 export { Input } from "./components/input";
 export { Label } from "./components/label";
 export { Logo, type LogoProps } from "./components/logo";
 export { Media, type MediaProps } from "./components/media";
+export {
+  NumberBadge,
+  numberBadgeVariants,
+  type NumberBadgeProps,
+} from "./components/number-badge";
 export { Progress, type ProgressProps } from "./components/progress";
 export { Select } from "./components/select";
 export { Skeleton } from "./components/skeleton";

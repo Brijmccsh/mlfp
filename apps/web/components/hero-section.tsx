@@ -15,61 +15,73 @@ const FEATURE_ICONS: Record<FeatureIcon, LucideIcon> = {
 /**
  * The band is dark in both themes, so it carries its own `dark` class. Every
  * token inside resolves to its dark value and no child needs to know.
+ *
+ * Framing follows the approved mockup: the lockup sits at the top of the left
+ * column, top-aligned with the photo card, and the section is content-sized so
+ * nothing floats in an empty middle.
  */
 export function HeroSection() {
   return (
     <section
       id="top"
-      className="dark relative isolate overflow-hidden bg-background bg-[linear-gradient(180deg,var(--brand-ink)_0%,var(--background)_65%)] text-foreground"
+      className="dark relative isolate overflow-hidden bg-background bg-[linear-gradient(180deg,var(--brand-ink)_0%,var(--background)_65%)] pt-8 pb-10 text-foreground lg:pt-9 lg:pb-12"
     >
       <Spotlight className="top-[-18rem] left-[-14rem] h-[44rem] w-[44rem]" />
       <Spotlight className="right-[-16rem] bottom-[-22rem] h-[38rem] w-[38rem]" />
 
-      <Container className="py-14 lg:py-20">
-        <Logo
-          src={brand.logo.src}
-          srcDark={brand.logo.srcDark}
-          alt={brand.logo.alt}
-          width={brand.logo.width}
-          height={brand.logo.height}
-          priority
-          className="h-11 w-auto sm:h-14"
-        />
-
-        <div className="mt-14 grid items-start gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+      <Container>
+        <div className="grid items-start gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-14">
           <div>
-            <Badge variant="primary">{hero.pill}</Badge>
+            <Logo
+              src={brand.logo.src}
+              srcDark={brand.logo.srcDark}
+              alt={brand.logo.alt}
+              width={brand.logo.width}
+              height={brand.logo.height}
+              className="h-[clamp(3rem,8.4vw,8rem)] w-auto"
+            />
 
-            <h1 className="mt-7 max-w-3xl font-display text-display-sm text-balance sm:text-display-md xl:text-display-lg">
-              {hero.headline.lead}{" "}
-              <span className="text-brand-blue">{hero.headline.highlight}</span>
+            <div className="mt-[clamp(1rem,2.4vh,1.75rem)]">
+              <Badge variant="primary">{hero.pill}</Badge>
+            </div>
+
+            {/* Two blocks, never inline: the blue clause always starts its own
+                line. "award‑winning" carries a non-breaking hyphen in the
+                content, so it cannot split mid-word. */}
+            <h1 className="mt-[clamp(0.75rem,1.6vh,1.25rem)] max-w-2xl font-display text-hero text-pretty">
+              <span className="block">{hero.headline.lead}</span>
+              <span className="block text-brand-blue">{hero.headline.highlight}</span>
             </h1>
 
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-foreground-muted">
+            <p className="mt-[clamp(0.75rem,1.6vh,1.25rem)] max-w-lg leading-relaxed text-foreground-muted">
               {hero.body}
             </p>
 
-            <ul className="mt-11 grid gap-x-8 gap-y-7 sm:grid-cols-2">
-              {hero.features.map((feature) => {
+            {/* One row of four on large screens, split by hairlines. */}
+            <ul className="mt-[clamp(1.25rem,2.6vh,2rem)] grid grid-cols-2 gap-x-5 gap-y-6 lg:grid-cols-4 lg:gap-x-0 lg:divide-x lg:divide-border">
+              {hero.features.map((feature, index) => {
                 const Icon = FEATURE_ICONS[feature.icon];
 
                 return (
-                  <li key={feature.title} className="flex items-start gap-3.5">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary-subtle text-primary">
-                      <Icon className="size-5" />
+                  <li
+                    key={feature.title}
+                    className={index === 0 ? "lg:pr-4" : "lg:px-4 lg:last:pr-0"}
+                  >
+                    <span className="flex size-8 items-center justify-center rounded-full bg-primary-subtle text-primary">
+                      <Icon className="size-4" />
                     </span>
-                    <span className="flex flex-col gap-1">
-                      <span className="font-display font-semibold">{feature.title}</span>
-                      <span className="text-sm text-foreground-muted">
-                        {feature.description}
-                      </span>
+                    <span className="mt-2.5 block font-display text-sm font-semibold">
+                      {feature.title}
+                    </span>
+                    <span className="mt-1 block text-sm leading-snug text-foreground-muted">
+                      {feature.description}
                     </span>
                   </li>
                 );
               })}
             </ul>
 
-            <div className="mt-12 flex flex-wrap items-center gap-3">
+            <div className="mt-[clamp(1.5rem,3vh,2.25rem)] flex flex-wrap items-center gap-3">
               <Button asChild size="lg">
                 <a href={hero.primaryCta.href}>
                   {hero.primaryCta.label}
@@ -82,29 +94,31 @@ export function HeroSection() {
             </div>
           </div>
 
+          {/* Photo and instructor panel are one bordered unit, per the mockup. */}
           <figure className="overflow-hidden rounded-2xl border border-primary/30 bg-surface shadow-lg ring-1 ring-primary/10">
             <Media
               src={hero.image.src}
               alt={hero.image.alt}
               priority
-              sizes="(min-width: 1024px) 38vw, 100vw"
-              className="aspect-4/5 w-full"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              objectPosition="center 18%"
+              className="aspect-square w-full"
             />
-            <figcaption className="flex flex-col gap-2 p-7">
+            <figcaption className="flex flex-col gap-1.5 p-6 lg:p-7">
               <span className="text-eyebrow text-primary uppercase">
                 {hero.card.eyebrow}
               </span>
               <span className="font-display text-2xl leading-tight font-semibold">
                 {hero.card.name}
               </span>
-              <span className="text-primary">{hero.card.role}</span>
-              <blockquote className="mt-3 text-foreground-muted">
-                <p className="leading-relaxed">
-                  <span aria-hidden className="font-display text-primary">
+              <span className="text-sm text-primary">{hero.card.role}</span>
+              <blockquote className="mt-2 leading-relaxed text-foreground-muted">
+                <p>
+                  <span aria-hidden className="mr-0.5 font-display text-primary">
                     “
                   </span>
                   {hero.card.quote}
-                  <span aria-hidden className="font-display text-primary">
+                  <span aria-hidden className="ml-0.5 font-display text-primary">
                     ”
                   </span>
                 </p>

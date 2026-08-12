@@ -13,21 +13,28 @@ export type Asset = {
   height: number;
 };
 
+/** Each phase card carries its own accent so the three read as distinct steps. */
+export type PhaseAccent = "accent" | "primary" | "violet";
+
 export type ProgramPhase = {
+  number: string;
+  accent: PhaseAccent;
+  icon: "book-open" | "users" | "trophy";
   eyebrow: string;
   title: string;
   description: string;
+  detailIcon: "calendar" | "users" | "star";
   detail: string;
 };
 
-export type Module = {
-  number: string;
+export type JourneyModule = {
   title: string;
   description: string;
 };
 
-export type ChallengeStep = {
-  title: string;
+export type ChallengeFacet = {
+  icon: "megaphone" | "folder" | "target" | "users";
+  label: string;
   description: string;
 };
 
@@ -96,10 +103,12 @@ export const brand = {
 } as const;
 
 export const nav = {
+  // Modules and The Challenge are two halves of the merged 8-Week Journey
+  // section, so each deep-links to its own column rather than the section top.
   links: [
     { label: "Program", href: "#program" },
-    { label: "Modules", href: "#modules" },
-    { label: "The Challenge", href: "#challenge" },
+    { label: "Modules", href: "#journey-modules" },
+    { label: "The Challenge", href: "#journey-challenge" },
     { label: "Outcomes", href: "#outcomes" },
     { label: "FAQ", href: "#faq" },
   ] satisfies NavLink[],
@@ -111,7 +120,7 @@ export const hero = {
   headline: {
     lead: "Learn the strategies, frameworks, and creative thinking behind building",
     /** Rendered in brand blue. */
-    highlight: "award-winning, 360-degree marketing campaigns.",
+    highlight: "award\u2011winning, 360-degree marketing campaigns.",
   },
   body: "An immersive, real-world fellowship for the next generation of marketing leaders. Taught by industry experts. Built for impact.",
   features: [
@@ -174,92 +183,121 @@ export const summary = {
 
 export const program = {
   eyebrow: "Program Structure",
-  heading: "Eight weeks, three phases.",
+  /** Second line renders in brand blue. */
+  headingLead: "Eight weeks,",
+  headingHighlight: "three phases.",
   body: "Structured enough to follow while you study or work. Demanding enough to be worth putting on a résumé.",
+  background: {
+    src: "/brand/phases-bg.jpg",
+    alt: "",
+    width: 2200,
+    height: 1466,
+  } satisfies Asset,
   phases: [
     {
+      number: "01",
+      accent: "accent",
+      icon: "book-open",
       eyebrow: "Weeks 1–4",
       title: "Self-Paced Learning",
       description:
-        "Four modules built on Chad Tons’ real agency playbook, covering how an agency runs, how a brand defines itself, and how a 360 campaign is designed from brief to buy.",
+        "Four modules taught by Chad Tons, covering how an agency runs, how a brand defines itself, and how a 360 campaign is designed from brief to buy.",
+      detailIcon: "calendar",
       detail: "Roughly 3–5 hours per week, on your own schedule.",
     },
     {
+      number: "02",
+      accent: "primary",
+      icon: "users",
       eyebrow: "Weeks 5–7",
       title: "The CEO Challenge Project",
       description:
         "Teams receive a live client brief and build a full integrated campaign against it — strategy, channels, budget allocation, and creative direction.",
+      detailIcon: "users",
       detail: "Team-based, with checkpoints along the way.",
     },
     {
+      number: "03",
+      accent: "violet",
+      icon: "trophy",
       eyebrow: "Week 8",
       title: "Program Close",
       description:
         "Every team presents live. Work is judged on strategic clarity, channel logic, and the strength of the pitch itself.",
+      detailIcon: "star",
       detail: "Live pitch, awards, and recognition.",
     },
   ] satisfies ProgramPhase[],
 } as const;
 
-export const modules = {
-  eyebrow: "Curriculum",
-  heading: "Four modules. No filler.",
-  body: "Each module ends where the next begins, so by week four you are holding everything the Challenge requires.",
-  items: [
-    {
-      number: "01",
-      title: "Welcome & The IMT Story",
-      description:
-        "How a full-service agency is built and run — the roles, the economics, and the decisions that separate agencies that last from agencies that don’t.",
-    },
-    {
-      number: "02",
-      title: "Mission, Vision & Capabilities",
-      description:
-        "How a brand defines what it is and what it refuses to be, and how those choices cascade into every downstream marketing decision.",
-    },
-    {
-      number: "03",
-      title: "Building a 360 Campaign",
-      description:
-        "Designing across all four channels at once — the mechanics of integration, budget allocation, sequencing, and measurement.",
-    },
-    {
-      number: "04",
-      title: "The CEO Challenge Client",
-      description:
-        "The brief itself: the client, the market, the constraints, and exactly what a winning response has to prove.",
-    },
-  ] satisfies Module[],
-} as const;
+export const journey = {
+  eyebrow: "Program structure",
+  heading: "Your 8-Week Journey to Marketing Leadership",
+  body: "A step-by-step fellowship designed to take you from foundational insights to a real-world CEO challenge.",
+  badge: {
+    src: "/brand/ceo-challenge-logo.png",
+    alt: "The CEO Challenge",
+    width: 863,
+    height: 1000,
+  } satisfies Asset,
 
-export const challenge = {
-  eyebrow: "The CEO Challenge",
-  heading: "Design a $25M campaign. Then defend it.",
-  body: "The Challenge is the centre of the program. Teams are handed a real brief and a real budget, and are expected to answer it the way an agency would.",
-  budget: { value: "$25M", label: "Campaign budget to allocate" },
-  steps: [
-    {
-      title: "Build the strategy",
-      description:
-        "Define the audience, the insight, and the through-line. Decide what the campaign is actually arguing — before a single channel is chosen.",
-    },
-    {
-      title: "Write the report",
-      description:
-        "A full written campaign strategy: positioning, channel plan, budget allocation across all four marketing channels, and how success gets measured.",
-    },
-    {
-      title: "Build the deck",
-      description:
-        "A pitch deck that carries the idea — structured, designed, and written to survive a room that asks hard questions.",
-    },
-    {
-      title: "Pitch it live",
-      description:
-        "Pitch live to guest instructor Chad Tons and industry leaders. Defend the strategy, take the questions, and find out how the work holds up.",
-    },
-  ] satisfies ChallengeStep[],
+  modules: {
+    title: "Module-by-Module Outline",
+    meta: "(Weeks 1–4)",
+    items: [
+      {
+        title: "Welcome & IMT Story",
+        description:
+          "Chad Tons’ background, the evolution of experiential marketing, IMT’s founding, growth, and 2002–2025 campaign highlights.",
+      },
+      {
+        title: "Mission, Vision & Capabilities",
+        description:
+          "IMT’s mission and vision, the full-service toolbox (pre-event, design & fabrication, production, amplification, influencer programs, PICO partnership), and award-winning case studies (State Farm Gamerhood, HP x Coachella REGEN, State Farm “Batman vs. Bateman”).",
+      },
+      {
+        title: "Building a 360 Campaign",
+        description:
+          "The 360 framework (brand strategy, audience intelligence, content/creative, channel mix, journey mapping, martech stack, analytics/attribution, governance), 2025 marketing trends, offline-to-digital integration, and the concept of “Big Swing” ideas, illustrated with the State Farm x Khaby Lame case study.",
+      },
+      {
+        title: "The CEO Challenge Client",
+        description:
+          "Introduction of the live IMT client: company overview, technology, target audience, brand voice, launch markets, and the strategic tension the campaign must solve.",
+      },
+    ] satisfies JourneyModule[],
+  },
+
+  challenge: {
+    title: "The CEO Challenge",
+    meta: "(Final Weeks)",
+    items: [
+      {
+        icon: "megaphone",
+        label: "Assignment",
+        description:
+          "In teams, design a $25M 360 marketing campaign for a live IMT client, driving market awareness, community education, and public trust.",
+      },
+      {
+        icon: "folder",
+        label: "Deliverables",
+        description:
+          "A written report and pitch deck allocating budget and proposals across four channels: Linear/Traditional, Digital Content/Social, Experiential/Events, and Big Swings.",
+      },
+      {
+        icon: "target",
+        label: "Key Objectives",
+        description:
+          "Increase market reach; educate on safety & trust; promote the consumer experience; and leverage the client’s partners.",
+      },
+      {
+        icon: "users",
+        label: "Process",
+        description:
+          "Live Zoom sessions with an MLFP Coordinator, team collaboration, and a final live pitch presentation to Chad Tons for scoring and feedback.",
+      },
+    ] satisfies ChallengeFacet[],
+  },
 } as const;
 
 export const outcomes = {
@@ -306,34 +344,35 @@ export const about = {
     width: 1068,
     height: 1600,
   } satisfies Asset,
-  press: {
-    heading: "Appearances and press",
-    items: [
-      {
-        title: "Tons Keynotes USC Marshall Summit",
-        image: "/press/usc-marshall-summit.jpg",
-        // Portrait source in a 3:2 frame. Biased slightly high so the summit
-        // screen and Chad's head both survive the crop.
-        focal: "center 42%",
-        href: "https://www.marshall.usc.edu/posts/marshall-alumni-reconnect-at-leadership-summit",
-      },
-      {
-        title: "Tons Keynotes Pico Global Conference",
-        // Source is already 3:2, so it needs no focal adjustment.
-        image: "/press/pico-international-conference.jpg",
-        // Canonical permalink. The share link this came from carried utm_* and
-        // an `rcm` token tied to the sharer's account; both are stripped.
-        href: "https://www.linkedin.com/posts/chadtons_always-a-highlight-to-end-my-year-imt-and-activity-7407860934221869056-pWOo",
-      },
-      {
-        title: "Chad Tons Family Café Unveiled at Fertitta Hall",
-        // 16:9 source: wider than the frame, so it crops at the sides only and
-        // the café signage above the group is never at risk. No focal needed.
-        image: "/press/chad-tons-family-cafe.jpg",
-        href: "https://www.marshall.usc.edu/posts/chad-tons-caf-unveiled-in-fertitta-hall",
-      },
-    ] satisfies PressItem[],
-  },
+} as const;
+
+export const press = {
+  eyebrow: "Appearances and press",
+  items: [
+    {
+      title: "Tons Keynotes USC Marshall Summit",
+      image: "/press/usc-marshall-summit.jpg",
+      // Portrait source in a 3:2 frame. Biased slightly high so the summit
+      // screen and Chad's head both survive the crop.
+      focal: "center 42%",
+      href: "https://www.marshall.usc.edu/posts/marshall-alumni-reconnect-at-leadership-summit",
+    },
+    {
+      title: "Tons Keynotes Pico Global Conference",
+      // Source is already 3:2, so it needs no focal adjustment.
+      image: "/press/pico-international-conference.jpg",
+      // Canonical permalink. The share link this came from carried utm_* and
+      // an `rcm` token tied to the sharer's account; both are stripped.
+      href: "https://www.linkedin.com/posts/chadtons_always-a-highlight-to-end-my-year-imt-and-activity-7407860934221869056-pWOo",
+    },
+    {
+      title: "Chad Tons Family Café Unveiled at Fertitta Hall",
+      // 16:9 source: wider than the frame, so it crops at the sides only and
+      // the café signage above the group is never at risk. No focal needed.
+      image: "/press/chad-tons-family-cafe.jpg",
+      href: "https://www.marshall.usc.edu/posts/chad-tons-caf-unveiled-in-fertitta-hall",
+    },
+  ] satisfies PressItem[],
 } as const;
 
 export const value = {
@@ -401,9 +440,9 @@ export const faq = {
 } as const;
 
 export const application = {
-  eyebrow: "Applications open",
-  heading: "Apply to the fellowship.",
-  body: "Tell us who you are and why you want in. Applications are read individually and we respond to every one.",
+  eyebrow: "Apply now",
+  heading: "Take the first step.",
+  body: "Tell us a bit about yourself and your goals. We’re looking for curious, motivated leaders ready to make an impact.",
   selectPrompt: "Select one",
   optionalHint: "Optional",
 
