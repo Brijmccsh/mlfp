@@ -4,8 +4,8 @@ import { about } from "@/content/landing";
 
 export function AboutSection() {
   return (
-    <section className="border-t border-border py-24 md:py-32">
-      <Container>
+    <section className="bg-surface-muted pt-24 pb-16 md:pt-28 md:pb-20">
+      <Container width="wide">
         <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <Media
             src={about.image.src}

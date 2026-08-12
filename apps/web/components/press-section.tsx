@@ -5,8 +5,8 @@ import { press } from "@/content/landing";
 
 export function PressSection() {
   return (
-    <section className="border-t border-border py-20 md:py-24">
-      <Container>
+    <section className="bg-surface-muted pt-4 pb-24 md:pb-28">
+      <Container width="wide">
         <Eyebrow underline>{press.eyebrow}</Eyebrow>
 
         <div className="mt-10 grid gap-5 md:grid-cols-3 md:gap-6">

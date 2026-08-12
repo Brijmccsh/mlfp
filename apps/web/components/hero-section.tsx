@@ -29,8 +29,8 @@ export function HeroSection() {
       <Spotlight className="top-[-18rem] left-[-14rem] h-[44rem] w-[44rem]" />
       <Spotlight className="right-[-16rem] bottom-[-22rem] h-[38rem] w-[38rem]" />
 
-      <Container>
-        <div className="grid items-start gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-14">
+      <Container width="wide">
+        <div className="grid items-start gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-24">
           <div>
             <Logo
               src={brand.logo.src}
@@ -52,6 +52,12 @@ export function HeroSection() {
               <span className="block">{hero.headline.lead}</span>
               <span className="block text-brand-blue">{hero.headline.highlight}</span>
             </h1>
+
+            {/* Short rule between headline and subhead, per the mockup. */}
+            <span
+              aria-hidden
+              className="mt-[clamp(1rem,2vh,1.5rem)] block h-px w-14 bg-primary/60"
+            />
 
             <p className="mt-[clamp(0.75rem,1.6vh,1.25rem)] max-w-lg leading-relaxed text-foreground-muted">
               {hero.body}

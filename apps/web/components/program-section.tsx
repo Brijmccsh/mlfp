@@ -64,7 +64,7 @@ export function ProgramSection() {
           className="absolute inset-0 -z-10 bg-[linear-gradient(95deg,color-mix(in_oklab,var(--brand-ink)_93%,transparent)_0%,color-mix(in_oklab,var(--brand-ink)_88%,transparent)_40%,color-mix(in_oklab,var(--brand-ink)_42%,transparent)_60%,color-mix(in_oklab,var(--brand-ink)_12%,transparent)_78%,color-mix(in_oklab,var(--brand-ink)_2%,transparent)_100%)]"
         />
 
-        <Container>
+        <Container width="wide">
           <Eyebrow tone="inverse" underline>
             {program.eyebrow}
           </Eyebrow>
@@ -81,7 +81,7 @@ export function ProgramSection() {
       </div>
 
       {/* Cards lift up onto the band. */}
-      <Container className="-mt-32 pb-24 md:-mt-36 md:pb-32">
+      <Container width="wide" className="-mt-32 pb-24 md:-mt-36 md:pb-32">
         <div className="grid gap-6 md:grid-cols-3">
           {program.phases.map((phase) => {
             const Icon = PHASE_ICONS[phase.icon];
