@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #0e1016; color: #ffffff; font-family: "IBM Plex Sans", sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #6a9dff; text-decoration: none; }
+  a:hover { color: #ffffff; }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: radial-gradient(120% 80% at 50% 0%, #191d28 0%, #0e1016 60%); display: flex; flex-direction: column;">
+  <div style="height: 56px; flex: none; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 0 24px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span style="font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.02em; color: #ffffff;">MLFP Home</span>
+      <span style="width: 1px; height: 14px; background: rgba(255,255,255,0.16);"></span>
+      <span style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45);">{{ dirLabel }}</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <span style="font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45);">{{ sizeLabel }}</span>
+      <a href="{{ src }}" title="Open this page on its own" style="font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.45);" style-hover="color: #ffffff;">Open ↗</a>
+    </div>
+  </div>
+
+  <div style="flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 26px 26px 96px; overflow: auto;">
+    <sc-if value="{{ isFull }}" hint-placeholder-val="{{ true }}">
+      <iframe src="{{ embedSrc }}" title="Full width preview" style="width: 100%; height: calc(100vh - 178px); border: 0; border-radius: 12px; background: #ffffff; box-shadow: 0 30px 70px rgba(0,0,0,0.5);"></iframe>
+    </sc-if>
+
+    <sc-if value="{{ isTablet }}" hint-placeholder-val="{{ false }}">
+      <div style="height: {{ scaledH }}; display: flex; justify-content: center;">
+        <div style="transform: scale({{ scale }}); transform-origin: top center;">
+          <div style="width: 848px; height: 1148px; background: #14161d; border: 14px solid #1b1f28; border-radius: 36px; box-shadow: 0 46px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; border-radius: 999px; background: rgba(255,255,255,0.22); z-index: 2;"></div>
+            <iframe src="{{ embedSrc }}" title="Tablet preview" style="width: 100%; height: 100%; border: 0; display: block; background: #ffffff;"></iframe>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div style="height: {{ scaledH }}; display: flex; justify-content: center;">
+        <div style="transform: scale({{ scale }}); transform-origin: top center;">
+          <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="{{ mobileW }}" height="{{ mobileH }}" hint-size="402px,874px">
+            <iframe src="{{ embedSrc }}" title="Mobile preview" style="width: 100%; height: 100%; border: 0; display: block; background: #ffffff;"></iframe>
+          </x-import>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+
+<div style="position: fixed; bottom: 20px; right: 20px; z-index: 999; display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 999px; background: rgba(6,13,32,0.9); border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 14px 34px rgba(2,7,22,0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);">
+  <span style="font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); padding: 0 6px 0 5px;">Page</span>
+  <sc-for list="{{ dirChips }}" as="c" hint-placeholder-count="5">
+    <button onClick="{{ c.onClick }}" title="{{ c.title }}" style="{{ c.style }}">{{ c.label }}</button>
+  </sc-for>
+  <span style="width: 1px; height: 20px; background: rgba(255,255,255,0.16); margin: 0 6px;"></span>
+  <span style="font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); padding: 0 6px 0 0;">Size</span>
+  <sc-for list="{{ bpChips }}" as="c" hint-placeholder-count="3">
+    <button onClick="{{ c.onClick }}" title="{{ c.title }}" style="{{ c.style }}">{{ c.label }}</button>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultDirection&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;V1&quot;,&quot;V2&quot;,&quot;V4&quot;,&quot;V3&quot;,&quot;V5&quot;],&quot;default&quot;:&quot;V1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Preview&quot;},&quot;defaultBreakpoint&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Preview&quot;}}">
+const DIRS = [
+  { id: "V1", label: "V1", name: "Direction V1 — MLFP", file: "Home-V1.dc.html" },
+  { id: "V2", label: "V2", name: "Direction V2 — MLFP", file: "Home-V2.dc.html" },
+  { id: "V4", label: "V4", name: "Direction V4 — MLFP", file: "Home-V4.dc.html" },
+  { id: "V3", label: "V3", name: "Direction V3 — MLFP", file: "Home-V3.dc.html" },
+  { id: "V5", label: "V5", name: "Direction V5 — Poster", file: "Home-V5.dc.html" },
+  { id: "App", label: "App", name: "Application prototype", file: "Application.dc.html" },
+];
+const BPS = [
+  { id: "full", label: "Full", name: "Full width", w: null, h: null },
+  { id: "tablet", label: "Tablet", name: "Tablet · 820 × 1120", w: 848, h: 1148 },
+  { id: "mobile", label: "Mobile", name: "Mobile · 402 × 874", w: 402, h: 874 }
+];
+
+class Component extends DCLogic {
+  state = { dir: "V2", bp: "full", vh: 900 };
+
+  componentDidMount() {
+    let dir = this.props.defaultDirection || "V1";
+    let bp = this.props.defaultBreakpoint || "full";
+    try {
+      const saved = JSON.parse(localStorage.getItem("mlfp-preview") || "null");
+      if (saved && saved.dir) { dir = saved.dir; bp = saved.bp || bp; }
+    } catch (e) {}
+    const q = new URLSearchParams(location.search);
+    if (q.get("d")) dir = q.get("d");
+    if (q.get("bp")) bp = q.get("bp");
+    if (!DIRS.some(d => d.id === dir)) dir = "V2";
+    if (!BPS.some(b => b.id === bp)) bp = "full";
+    this.setState({ dir, bp, vh: window.innerHeight });
+    this._onResize = () => this.setState({ vh: window.innerHeight });
+    window.addEventListener("resize", this._onResize);
+  }
+
+  componentWillUnmount() {
+    if (this._onResize) window.removeEventListener("resize", this._onResize);
+  }
+
+  set(next) {
+    const merged = Object.assign({ dir: this.state.dir, bp: this.state.bp }, next);
+    try { localStorage.setItem("mlfp-preview", JSON.stringify(merged)); } catch (e) {}
+    this.setState(next);
+  }
+
+  chip(active) {
+    const base = "display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; cursor: pointer; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 12.5px; transition: background 160ms ease, color 160ms ease;";
+    return active
+      ? base + " color: #ffffff; background: linear-gradient(180deg, #3d7bff 0%, #1e57ec 100%); border: 1px solid rgba(255,255,255,0.28); box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);"
+      : base + " color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);";
+  }
+
+  renderVals() {
+    const dir = DIRS.find(d => d.id === this.state.dir) || DIRS[3];
+    const bp = BPS.find(b => b.id === this.state.bp) || BPS[0];
+    const avail = Math.max(320, this.state.vh - 170);
+    const scale = bp.h ? Math.min(1, avail / bp.h) : 1;
+    return {
+      src: dir.file,
+      embedSrc: dir.file + "?embed=1",
+      dirLabel: dir.name,
+      sizeLabel: bp.name,
+      isFull: bp.id === "full",
+      isTablet: bp.id === "tablet",
+      isMobile: bp.id === "mobile",
+      mobileW: 402,
+      mobileH: 874,
+      scale: scale.toFixed(4),
+      scaledH: bp.h ? Math.round(bp.h * scale) + "px" : "auto",
+      dirChips: DIRS.map(d => ({
+        label: d.label, title: d.name,
+        style: this.chip(d.id === dir.id),
+        onClick: () => this.set({ dir: d.id })
+      })),
+      bpChips: BPS.map(b => ({
+        label: b.label, title: b.name,
+        style: this.chip(b.id === bp.id),
+        onClick: () => this.set({ bp: b.id })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

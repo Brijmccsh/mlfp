@@ -1,0 +1,21 @@
+# Normalize line endings so Windows and macOS checkouts agree.
+* text=auto eol=lf
+
+# Generated exports — keep byte-identical to what the design tool produced.
+design/**.dc.html -text
+design/support.js -text
+design/image-slot.js -text
+design/scroll-sync.js -text
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# Reduce diff noise
+package-lock.json linguist-generated=true -diff

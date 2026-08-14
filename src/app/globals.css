@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Design tokens taken from design/Home-V2.dc.html */
+@theme {
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  /* navy — headings, body copy, dark surfaces */
+  --color-navy-950: #061737;
+  --color-navy-900: #0a2159;
+  --color-navy-800: #10214e;
+  --color-navy-700: #0d1c4f;
+  --color-navy-500: #46557d;
+  --color-navy-400: #5b6b93;
+
+  /* blue — links, CTAs, accents */
+  --color-brand-700: #0d3a8f;
+  --color-brand-600: #1a66e8;
+  --color-brand-500: #086bff;
+  --color-brand-400: #2f80ff;
+  --color-brand-300: #9cc6ff;
+  --color-brand-50: #e6efff;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: var(--color-navy-700);
+}
+
+.dark {
+  --background: #050e24;
+  --foreground: #ffffff;
+}
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* offset for the sticky header when jumping to a section anchor */
+  section[id] {
+    scroll-margin-top: 96px;
+  }
+}

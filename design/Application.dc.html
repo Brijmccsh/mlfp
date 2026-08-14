@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="./scroll-sync.js" data-fallback="none"></script>
+<style>
+  body { margin: 0; background: #ffffff; color: #0d1c4f; font-family: "Poppins", sans-serif; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #1a66e8; text-decoration: none; }
+  a:hover { color: #0d1c4f; }
+  input, textarea, select, button { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: #9aa6c4; }
+  @media (max-width: 900px) {
+    [data-direction-switcher] { display: none !important; }
+  }
+  @media (max-width: 720px) {
+    [data-a="page"] { padding-top: 54px !important; }
+  }
+  @media (max-width: 820px) {
+    [data-a="grid2"] { grid-template-columns: 1fr !important; }
+    [data-a="pips"] { display: none !important; }
+    [data-a="bar-inner"] { flex-direction: column !important; align-items: stretch !important; gap: 12px !important; }
+    [data-a="bar-actions"] { justify-content: space-between !important; }
+    [data-a="page"] { padding-left: 20px !important; padding-right: 20px !important; }
+  }
+</style>
+<script>if (location.search.indexOf("embed=1") > -1) document.documentElement.setAttribute("data-embedded", "1");</script>
+<style>html[data-embedded] [data-direction-switcher] { display: none !important; }</style>
+</helmet>
+
+<div style="min-height: 100vh; background: #ffffff; display: flex; flex-direction: column;">
+  <div style="position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid #eaeef8;">
+    <div data-a="page" style="max-width: 1080px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="Home-V2.dc.html" style="display: flex; align-items: center; gap: 14px;">
+        <img src="https://themlfp.com/_next/image?url=%2Fbrand%2Fmlfp-logo-horizontal.png&w=3840&q=75" alt="Marketing Leaders Fellowship Program" style="height: 44px; width: auto; filter: brightness(0) saturate(100%) invert(32%) sepia(83%) saturate(3200%) hue-rotate(213deg) brightness(97%) contrast(96%);" />
+      </a>
+      <div data-a="pips" style="display: flex; align-items: center; gap: 24px;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+          <button onClick="{{ s.go }}" style="{{ s.chip }}">{{ s.label }}</button>
+        </sc-for>
+      </div>
+      <a href="Home-V1.dc.html" title="V1 — MLFP" style="font-size: 13.5px; font-weight: 500; color: #0d1c4f;">V1</a>
+    </div>
+  </div>
+
+  <div data-a="page" style="flex: 1; width: 100%; max-width: 820px; margin: 0 auto; padding: 84px 32px 190px;">
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align: center; padding: 60px 0 40px;">
+        <span style="width: 62px; height: 62px; border-radius: 999px; background: #e6efff; display: inline-flex; align-items: center; justify-content: center;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1a66e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+        </span>
+        <h1 style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 52px; letter-spacing: -0.032em; margin: 26px 0 14px; color: #0d1c4f;">Application submitted.</h1>
+        <p style="margin: 0 auto; font-size: 20px; line-height: 1.7; color: #46557d; max-width: 46ch;">Thanks{{ nameSuffix }} — your application is in. We review on a rolling basis and you'll hear from the MLFP team by email within two weeks.</p>
+        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 32px; flex-wrap: wrap;">
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isForm }}" hint-placeholder-val="{{ true }}">
+      <div style="font-size: 16px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #1a66e8;">Apply now</div>
+      <h1 style="font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 52px; line-height: 1.04; letter-spacing: -0.034em; margin: 14px 0 12px; color: #0d1c4f;">{{ stepTitle }}</h1>
+      <p style="margin: 0; font-size: 20px; line-height: 1.65; color: #46557d; max-width: 52ch;">{{ stepBlurb }}</p>
+
+      <div style="margin-top: 34px; border: 1px solid #e3e8f5; border-radius: 20px; padding: 32px 34px 34px; background: #ffffff; box-shadow: 0 18px 44px rgba(13,28,79,0.06);">
+        <div style="display: flex; align-items: center; gap: 12px; padding-bottom: 22px; border-bottom: 1px solid #eaeef8;">
+          <span style="width: 34px; height: 34px; border-radius: 999px; background: #e6efff; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px; color: #1a66e8;">{{ stepNum }}</span>
+          <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; color: #1a66e8;">{{ stepEyebrow }}</span>
+        </div>
+
+        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 20px; padding-top: 24px;">
+            <div>
+              <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Full name</label>
+              <input value="{{ v.fullName }}" onInput="{{ on.fullName }}" placeholder="First and last name" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              <div style="font-size: 12.5px; color: #d92d20; margin-top: 6px; min-height: 15px;">{{ err.fullName }}</div>
+            </div>
+            <div data-a="grid2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Email</label>
+                <input value="{{ v.email }}" onInput="{{ on.email }}" placeholder="you@school.edu" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+                <div style="font-size: 12.5px; color: #d92d20; margin-top: 6px; min-height: 15px;">{{ err.email }}</div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Phone <span style="color: #9aa6c4; font-weight: 400;">(Optional)</span></label>
+                <input value="{{ v.phone }}" onInput="{{ on.phone }}" placeholder="(555) 555-5555" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              </div>
+            </div>
+            <div data-a="grid2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Education level</label>
+                <div style="position: relative;">
+                <select value="{{ v.education }}" onChange="{{ on.education }}" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none; appearance: none; -webkit-appearance: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);">
+                  <option value="">Select one</option>
+                  <option value="High school student">High school student</option>
+                  <option value="High school graduate">High school graduate</option>
+                  <option value="Undergraduate student">Undergraduate student</option>
+                  <option value="Graduate student">Graduate student</option>
+                  <option value="Other">Other</option>
+                </select>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5b6b93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 15px; top: 50%; margin-top: -7px; pointer-events: none;"><path d="M6 9.5l6 6 6-6"></path></svg>
+                </div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Graduation year <span style="color: #9aa6c4; font-weight: 400;">(Optional)</span></label>
+                <input value="{{ v.gradYear }}" onInput="{{ on.gradYear }}" placeholder="e.g. 2027" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              </div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">School <span style="color: #9aa6c4; font-weight: 400;">(Optional)</span></label>
+              <input value="{{ v.school }}" onInput="{{ on.school }}" placeholder="High school, college, or university" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 20px; padding-top: 24px;">
+            <div>
+              <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Which cohort are you applying for?</label>
+              <div style="position: relative;">
+              <select value="{{ v.cohort }}" onChange="{{ on.cohort }}" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none; appearance: none; -webkit-appearance: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);">
+                <option value="">Select one</option>
+                <option value="Fall 2026">Fall 2026</option>
+                <option value="Spring 2027">Spring 2027</option>
+                <option value="Summer 2027">Summer 2027</option>
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5b6b93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 15px; top: 50%; margin-top: -7px; pointer-events: none;"><path d="M6 9.5l6 6 6-6"></path></svg>
+              </div>
+              <div style="font-size: 12.5px; color: #d92d20; margin-top: 6px; min-height: 15px;">{{ err.cohort }}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">PSAT / SAT / ACT score <span style="color: #9aa6c4; font-weight: 400;">(Optional)</span></label>
+              <input value="{{ v.testScore }}" onInput="{{ on.testScore }}" placeholder="e.g. 1380 SAT" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              <div style="font-size: 13px; color: #5b6b93; margin-top: 8px;">Your highest so far. Leave blank if you haven't taken one.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+          <div style="padding-top: 24px;">
+            <div style="font-size: 16px; color: #46557d;">List up to five. At least one is required.</div>
+            <div style="display: flex; flex-direction: column; gap: 16px; margin-top: 18px;">
+              <sc-for list="{{ activities }}" as="a" hint-placeholder-count="1">
+                <div style="background: #f7f9fd; border: 1px solid #e3e8f5; border-radius: 16px; padding: 20px 22px 22px;">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 11px;">
+                      <span style="width: 26px; height: 26px; border-radius: 999px; background: #e6efff; color: #1a66e8; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 12px;">{{ a.n }}</span>
+                      <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #0d1c4f;">Activity {{ a.n }}</span>
+                    </div>
+                    <button onClick="{{ a.remove }}" style="{{ a.removeStyle }}">Remove</button>
+                  </div>
+                  <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 16px;">
+                    <div>
+                      <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Organization / activity</label>
+                      <input value="{{ a.org }}" onInput="{{ a.onOrg }}" placeholder="e.g. DECA, school newspaper, family business" style="width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+                    </div>
+                    <div>
+                      <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Leadership role / position</label>
+                      <input value="{{ a.role }}" onInput="{{ a.onRole }}" placeholder="e.g. Chapter President, Editor, Volunteer" style="width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+                    </div>
+                    <div>
+                      <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Description</label>
+                      <textarea value="{{ a.desc }}" onInput="{{ a.onDesc }}" placeholder="What you did, and what came of it." rows="3" style="width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; line-height: 1.6; color: #0d1c4f; outline: none; resize: vertical;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="font-size: 12.5px; color: #d92d20; margin-top: 10px; min-height: 15px;">{{ err.activities }}</div>
+            <button onClick="{{ addActivity }}" style="{{ addStyle }}">+ &nbsp;Add another activity</button>
+
+            <div style="margin-top: 30px; padding-top: 26px; border-top: 1px solid #eaeef8;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="width: 30px; height: 30px; border-radius: 999px; background: #e6efff; display: flex; align-items: center; justify-content: center;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1a66e8" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9.5" r="5"></circle><path d="M9 14l-1 6.5 4-2 4 2-1-6.5"></path></svg>
+                </span>
+                <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #1a66e8;">Honors and awards</span>
+              </div>
+              <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin: 18px 0 7px;">Anything you'd like us to know about <span style="color: #9aa6c4; font-weight: 400;">(Optional)</span></label>
+              <textarea value="{{ v.honors }}" onInput="{{ on.honors }}" placeholder="Awards, scholarships, recognitions — or leave this blank." rows="4" style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; line-height: 1.6; color: #0d1c4f; outline: none; resize: vertical;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);"></textarea>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+          <div style="padding-top: 24px;">
+            <div style="font-size: 14.5px; color: #46557d;">Optional — paste links (LinkedIn, portfolio, or a shared resume URL).</div>
+            <div data-a="grid2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Resume URL</label>
+                <input value="{{ v.resume }}" onInput="{{ on.resume }}" placeholder="https://..." style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              </div>
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">LinkedIn</label>
+                <input value="{{ v.linkedin }}" onInput="{{ on.linkedin }}" placeholder="https://linkedin.com/in/..." style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              </div>
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Portfolio or website</label>
+                <input value="{{ v.portfolio }}" onInput="{{ on.portfolio }}" placeholder="https://..." style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              </div>
+              <div>
+                <label style="display: block; font-size: 13.5px; font-weight: 500; color: #0d1c4f; margin-bottom: 7px;">Anything else</label>
+                <input value="{{ v.other }}" onInput="{{ on.other }}" placeholder="https://..." style="width: 100%; padding: 13px 15px; border-radius: 10px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; color: #0d1c4f; outline: none;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);" />
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+          <div style="padding-top: 24px;">
+            <div style="font-size: 14.5px; color: #46557d;">Three short essays, around 200–300 words each.</div>
+            <div style="display: flex; flex-direction: column; gap: 26px; margin-top: 20px;">
+              <div>
+                <label style="display: block; font-size: 15px; font-weight: 500; line-height: 1.5; color: #0d1c4f; margin-bottom: 9px;">1. Tell us about a brand or ad campaign you love. Why does it stick with you?</label>
+                <textarea value="{{ v.essay1 }}" onInput="{{ on.essay1 }}" placeholder="What it was, and why it stayed with you." rows="6" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; line-height: 1.7; color: #0d1c4f; outline: none; resize: vertical;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);"></textarea>
+                <div style="font-size: 13px; color: #5b6b93; margin-top: 7px;">{{ count1 }}</div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 15px; font-weight: 500; line-height: 1.5; color: #0d1c4f; margin-bottom: 9px;">2. Have you ever helped promote something (a club, event, small business, fundraiser)? What did you do?</label>
+                <textarea value="{{ v.essay2 }}" onInput="{{ on.essay2 }}" placeholder="It does not have to be marketing work. Tell us what you actually did." rows="6" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; line-height: 1.7; color: #0d1c4f; outline: none; resize: vertical;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);"></textarea>
+                <div style="font-size: 13px; color: #5b6b93; margin-top: 7px;">{{ count2 }}</div>
+              </div>
+              <div>
+                <label style="display: block; font-size: 15px; font-weight: 500; line-height: 1.5; color: #0d1c4f; margin-bottom: 9px;">3. Why do you want to join the Marketing Leaders Fellowship Program?</label>
+                <textarea value="{{ v.essay3 }}" onInput="{{ on.essay3 }}" placeholder="Be specific about what you want out of the eight weeks." rows="6" style="width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid #dde3f2; background: #ffffff; font-size: 15px; line-height: 1.7; color: #0d1c4f; outline: none; resize: vertical;" style-focus="border-color: #1a66e8; box-shadow: 0 0 0 3px rgba(26,102,232,0.12);"></textarea>
+                <div style="font-size: 13px; color: #5b6b93; margin-top: 7px;">{{ count3 }}</div>
+              </div>
+            </div>
+            <div style="font-size: 12.5px; color: #d92d20; margin-top: 12px; min-height: 15px;">{{ err.essays }}</div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ isForm }}" hint-placeholder-val="{{ true }}">
+    <div style="position: fixed; bottom: 0; left: 0; right: 0; z-index: 30; background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid #eaeef8;">
+      <div style="height: 3px; background: #eef1f9;">
+        <div style="height: 3px; width: {{ pct }}; background: linear-gradient(90deg, #1a66e8 0%, #6a9dff 100%); transition: width 320ms ease;"></div>
+      </div>
+      <div data-a="bar-inner" style="max-width: 820px; margin: 0 auto; padding: 16px 32px 18px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+        <div>
+          <div style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; color: #0d1c4f;">{{ stepCounter }}</div>
+          <div style="font-size: 13px; color: #5b6b93; margin-top: 2px;">{{ savedNote }}</div>
+        </div>
+        <div data-a="bar-actions" style="display: flex; align-items: center; gap: 10px;">
+          <button onClick="{{ back }}" style="{{ backStyle }}">Back</button>
+          <button onClick="{{ next }}" style="display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; padding: 14px 28px; border-radius: 999px; color: #ffffff; cursor: pointer; background: linear-gradient(180deg, #3d7bff 0%, #1e57ec 100%); border: 1px solid rgba(255,255,255,0.26); box-shadow: inset 0 1px 0 rgba(255,255,255,0.5), 0 10px 24px rgba(23,72,214,0.28); transition: box-shadow 200ms ease;" style-hover="box-shadow: inset 0 1px 0 rgba(255,255,255,0.75), 0 12px 30px rgba(23,72,214,0.4);">{{ nextLabel }}
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"></path><path d="M12.5 6l6 6-6 6"></path></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+<div data-direction-switcher="true" style="position: fixed; bottom: 104px; right: 20px; z-index: 999; display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 999px; background: rgba(6,13,32,0.9); border: 1px solid rgba(255,255,255,0.14); box-shadow: 0 14px 34px rgba(2,7,22,0.5); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); font-family: 'Poppins', sans-serif;">
+  <span style="font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); padding: 0 6px 0 5px;">Page</span>
+  <a href="Home-V1.dc.html" title="V1 — MLFP" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: background 160ms ease, color 160ms ease;" style-hover="background: rgba(255,255,255,0.18); color: #ffffff;">V1</a>
+  <a href="Home-V2.dc.html" title="V2 — MLFP" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: background 160ms ease, color 160ms ease;" style-hover="background: rgba(255,255,255,0.18); color: #ffffff;">V2</a>
+  <a href="Home-V4.dc.html" title="V4 — MLFP" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: background 160ms ease, color 160ms ease;" style-hover="background: rgba(255,255,255,0.18); color: #ffffff;">V4</a>
+  <a href="Home-V3.dc.html" title="V3 — MLFP" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: background 160ms ease, color 160ms ease;" style-hover="background: rgba(255,255,255,0.18); color: #ffffff;">V3</a>
+  <a href="Home-V5.dc.html" title="V5 — Poster" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: background 160ms ease, color 160ms ease;" style-hover="background: rgba(255,255,255,0.18); color: #ffffff;">V5</a>
+  <a href="Application.dc.html" title="Application prototype" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: #ffffff; background: linear-gradient(180deg, #3d7bff 0%, #1e57ec 100%); border: 1px solid rgba(255,255,255,0.28); box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);">App</a>
+  <span style="width: 1px; height: 20px; background: rgba(255,255,255,0.16); margin: 0 6px;"></span>
+  <span style="font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.45); padding: 0 6px 0 0;">Size</span>
+  <a href="Application.dc.html" title="Full width" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: #ffffff; background: linear-gradient(180deg, #3d7bff 0%, #1e57ec 100%); border: 1px solid rgba(255,255,255,0.28); box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);">Full</a>
+  <a href="Preview.dc.html?d=App&amp;bp=tablet" title="Tablet · 820 × 1120" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: background 160ms ease, color 160ms ease;" style-hover="background: rgba(255,255,255,0.18); color: #ffffff;">Tablet</a>
+  <a href="Preview.dc.html?d=App&amp;bp=mobile" title="Mobile · 402 × 874" style="display: flex; align-items: center; justify-content: center; min-width: 30px; height: 28px; padding: 0 11px; border-radius: 999px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,0.72); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: background 160ms ease, color 160ms ease;" style-hover="background: rgba(255,255,255,0.18); color: #ffffff;">Mobile</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1200,&quot;height&quot;:900}}">
+const STEPS = [
+  { n: "01", label: "About you", eyebrow: "About you", title: "Take the first step.", blurb: "Tell us a bit about yourself. We're looking for curious, motivated leaders ready to make an impact." },
+  { n: "02", label: "Cohort", eyebrow: "Cohort & academics", title: "Which cohort?", blurb: "Pick the term you're applying for. Academics are optional — they help us place you, not screen you out." },
+  { n: "03", label: "Activities", eyebrow: "Activities & honors", title: "What you've been building.", blurb: "Up to five activities, plus anything you've been recognised for." },
+  { n: "04", label: "Links", eyebrow: "Additional links", title: "Anything else to see?", blurb: "All optional. A résumé, LinkedIn, or portfolio link helps us picture your work." },
+  { n: "05", label: "Essays", eyebrow: "Essays", title: "Three short essays.", blurb: "Around 200–300 words each. Specific beats polished." }
+];
+
+class Component extends DCLogic {
+  state = {
+    step: 0,
+    done: false,
+    saved: false,
+    errors: {},
+    form: {
+      fullName: "", email: "", phone: "", education: "", gradYear: "", school: "",
+      cohort: "", testScore: "", honors: "",
+      resume: "", linkedin: "", portfolio: "", other: "",
+      essay1: "", essay2: "", essay3: ""
+    },
+    activities: [{ org: "", role: "", desc: "" }]
+  };
+
+  componentWillUnmount() { if (this._savedTimer) clearTimeout(this._savedTimer); }
+
+  setField(key) {
+    return (e) => {
+      const value = e.target.value;
+      this.setState(s => ({ form: Object.assign({}, s.form, { [key]: value }) }));
+    };
+  }
+
+  setActivity(i, key) {
+    return (e) => {
+      const value = e.target.value;
+      this.setState(s => {
+        const next = s.activities.map((a, idx) => idx === i ? Object.assign({}, a, { [key]: value }) : a);
+        return { activities: next };
+      });
+    };
+  }
+
+  flashSaved() {
+    this.setState({ saved: true });
+    if (this._savedTimer) clearTimeout(this._savedTimer);
+    this._savedTimer = setTimeout(() => this.setState({ saved: false }), 2200);
+  }
+
+  validate(step) {
+    const f = this.state.form;
+    const e = {};
+    if (step === 0) {
+      if (!f.fullName.trim()) e.fullName = "Please add your full name.";
+      if (!f.email.trim()) e.email = "Please add an email we can reach you at.";
+      else if (f.email.indexOf("@") < 0) e.email = "That email doesn't look right.";
+    }
+    if (step === 1 && !f.cohort) e.cohort = "Pick a cohort — “Not sure yet” is fine.";
+    if (step === 2 && !this.state.activities.some(a => a.org.trim())) e.activities = "Add at least one activity.";
+    if (step === 4) {
+      const words = (t) => t.trim() ? t.trim().split(/\s+/).length : 0;
+      if (!words(f.essay1) || !words(f.essay2) || !words(f.essay3)) e.essays = "All three essays are required before submitting.";
+    }
+    return e;
+  }
+
+  goNext() {
+    const errors = this.validate(this.state.step);
+    if (Object.keys(errors).length) { this.setState({ errors }); return; }
+    this.setState({ errors: {} });
+    if (this.state.step === 4) {
+      this.setState({ done: true });
+      window.scrollTo(0, 0);
+      return;
+    }
+    this.flashSaved();
+    this.setState(s => ({ step: s.step + 1 }));
+    window.scrollTo(0, 0);
+  }
+
+  renderVals() {
+    const i = this.state.step;
+    const step = STEPS[i];
+    const f = this.state.form;
+    const words = (t) => t.trim() ? t.trim().split(/\s+/).length : 0;
+    const on = {};
+    Object.keys(f).forEach(k => { on[k] = this.setField(k); });
+    const pipBase = "background: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; padding: 6px 1px; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13.5px; transition: color 160ms ease, border-color 160ms ease;";
+
+    return {
+      v: f,
+      on: on,
+      err: {
+        fullName: this.state.errors.fullName || "",
+        email: this.state.errors.email || "",
+        cohort: this.state.errors.cohort || "",
+        activities: this.state.errors.activities || "",
+        essays: this.state.errors.essays || ""
+      },
+      isForm: !this.state.done,
+      isDone: this.state.done,
+      isStep1: i === 0, isStep2: i === 1, isStep3: i === 2, isStep4: i === 3, isStep5: i === 4,
+      stepNum: step.n,
+      stepEyebrow: step.eyebrow,
+      stepTitle: step.title,
+      stepBlurb: step.blurb,
+      stepCounter: "Step " + (i + 1) + " of 5 · " + step.eyebrow,
+      savedNote: this.state.saved ? "Progress saved ✓" : "You can save and return at any time.",
+      pct: Math.round(((i + 1) / 5) * 100) + "%",
+      nextLabel: i === 4 ? "Submit application" : "Save & next",
+      backStyle: "font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; padding: 13px 24px; border-radius: 999px; background: #f3f5fb; border: 1px solid #dde3f2; color: #0d1c4f; cursor: " + (i === 0 ? "not-allowed" : "pointer") + "; opacity: " + (i === 0 ? "0.45" : "1") + ";",
+      back: () => { if (i > 0) { this.setState({ step: i - 1, errors: {} }); window.scrollTo(0, 0); } },
+      next: () => this.goNext(),
+      restart: () => this.setState({
+        done: false, step: 0, errors: {},
+        form: {
+          fullName: "", email: "", phone: "", education: "", gradYear: "", school: "",
+          cohort: "", testScore: "", honors: "",
+          resume: "", linkedin: "", portfolio: "", other: "",
+          essay1: "", essay2: "", essay3: ""
+        },
+        activities: [{ org: "", role: "", desc: "" }]
+      }),
+      nameSuffix: f.fullName.trim() ? ", " + f.fullName.trim().split(/\s+/)[0] : "",
+      steps: STEPS.map((s, idx) => ({
+        label: s.label,
+        chip: pipBase + (idx === i
+          ? " color: #0d1c4f; border-bottom-color: #1a66e8;"
+          : idx < i ? " color: #46557d;" : " color: #9aa6c4;"),
+        go: () => { this.setState({ step: idx, errors: {} }); window.scrollTo(0, 0); }
+      })),
+      activities: this.state.activities.map((a, idx) => ({
+        n: idx + 1,
+        org: a.org, role: a.role, desc: a.desc,
+        onOrg: this.setActivity(idx, "org"),
+        onRole: this.setActivity(idx, "role"),
+        onDesc: this.setActivity(idx, "desc"),
+        removeStyle: "background: none; border: 0; padding: 0; font-size: 13px; color: #8a97b8; cursor: pointer; display: " + (this.state.activities.length > 1 ? "block" : "none") + ";",
+        remove: () => this.setState(s => ({ activities: s.activities.filter((_, j) => j !== idx) }))
+      })),
+      addActivity: () => this.setState(s => s.activities.length < 5 ? { activities: s.activities.concat([{ org: "", role: "", desc: "" }]) } : {}),
+      addStyle: "width: 100%; margin-top: 14px; padding: 15px; border-radius: 12px; border: 1px dashed #c9d6f0; background: #ffffff; color: #1a66e8; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14.5px; cursor: pointer; display: " + (this.state.activities.length < 5 ? "block" : "none") + ";",
+      count1: words(f.essay1) + " of 200–300 words",
+      count2: words(f.essay2) + " of 200–300 words",
+      count3: words(f.essay3) + " of 200–300 words"
+    };
+  }
+}
+</script>
+</body>
+</html>
