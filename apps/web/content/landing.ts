@@ -191,11 +191,11 @@ export const learnFrom = {
   heading: "Who You\u2019ll Learn From",
   featured: {
     title: "Chad Tons Keynotes USC Marshall Leadership Summit",
-    // TODO: swap to the wide keynote asset when it lands. The current file is
-    // a 661x771 portrait, so the banner is held at 16:9 — anything wider
-    // starts cutting the "SUMMIT" line off the screen behind him.
-    image: "/press/usc-marshall-summit.jpg",
-    focal: "center 42%",
+    // Native 16:9 (1672x941), exactly the card's frame, so nothing is cropped
+    // and object-position has no effect. Kept as plain "center" because the
+    // section component reads this key.
+    image: "/press/usc-marshall-keynote-wide.png",
+    focal: "center",
     href: "https://www.marshall.usc.edu/posts/marshall-alumni-reconnect-at-leadership-summit",
   } satisfies LearnFromCard,
   cards: [
@@ -213,7 +213,7 @@ export const learnFrom = {
       title: "USA Today\u2019s Notable Entrepreneurs of 2026",
       image: "/team/chad-tons-seated.jpg",
       focal: "center 52%",
-      href: null,
+      href: "https://www.usatoday.com/story/special/contributor-content/2026/08/11/notable-entrepreneurs-of-2026/91260640007/",
     },
   ] satisfies LearnFromCard[],
 
