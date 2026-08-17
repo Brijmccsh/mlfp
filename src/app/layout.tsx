@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { noIndex } from "@/lib/site";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -13,6 +14,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Marketing Leaders Fellowship Program",
   description: "A fellowship for marketers stepping into leadership.",
+  ...(noIndex && {
+    robots: { index: false, follow: false, nocache: true },
+  }),
 };
 
 export const viewport: Viewport = {

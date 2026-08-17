@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
+import { ApplicationForm } from "@/components/application-form";
 
 export const metadata: Metadata = {
   title: "Apply — Marketing Leaders Fellowship Program",
+  description:
+    "Apply to the Marketing Leaders Fellowship Program — five steps, about an hour.",
 };
 
-// Form fields and copy follow design/Application.dc.html.
 export default function Apply() {
-  return (
-    <main className="mx-auto max-w-3xl px-6 py-24">
-      <h1 className="text-4xl font-bold text-navy-700">Apply now</h1>
-    </main>
-  );
+  return <ApplicationForm />;
 }
