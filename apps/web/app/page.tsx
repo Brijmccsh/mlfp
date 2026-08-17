@@ -1,4 +1,3 @@
-import { AboutSection } from "@/components/about-section";
 import { ApplyCtaSection } from "@/components/apply-cta-section";
 import { CredibilityStrip } from "@/components/credibility-strip";
 import { FaqSection } from "@/components/faq-section";
@@ -21,7 +20,6 @@ export default function LandingPage() {
         <LearnFromSection />
         <ProgramSection />
         <JourneySection />
-        <AboutSection />
         <CredibilityStrip />
         <SummarySection />
         <OutcomesSection />

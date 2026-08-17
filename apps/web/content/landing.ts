@@ -217,9 +217,8 @@ export const learnFrom = {
     },
   ] satisfies LearnFromCard[],
 
-  // NOTE: this copy is currently identical to the `about` section's quote and
-  // bio, so the page states it twice. Kept standalone rather than referencing
-  // `about` so this block survives if that section is retired.
+  // The standalone "Who leads it" section was retired because it repeated this
+  // copy; this block is now the only place the quote and bio appear.
   quoteCard: {
     quote:
       "Great marketing doesn\u2019t just sell, it moves people, shifts culture, and drives real impact.",
@@ -446,29 +445,6 @@ export const outcomes = {
     { text: "Open more doors." },
   ] satisfies TaglinePhrase[],
   taglineSeparator: "\u00b7",
-} as const;
-
-export const about = {
-  eyebrow: "Who leads it",
-  heading: "Chad Tons",
-  role: "Founder & CEO, Infinity Marketing Team",
-  body: [
-    "Chad Tons has spent his career building integrated campaigns for brands operating at national scale — the kind of work where strategy, media, creative, and measurement have to move as one or not at all.",
-    "He founded Infinity Marketing Team to do that work end to end, and built the fellowship because the gap between how marketing is taught and how it is practised kept showing up in the people he hired.",
-    "He teaches every module himself, and sits in the room for every final pitch.",
-  ],
-  quote:
-    "Great marketing doesn’t just sell — it moves people, shifts culture, and drives real impact.",
-  quoteAttribution: {
-    name: "Chad Tons",
-    role: "Founder & CEO, Infinity Marketing Team",
-  },
-  image: {
-    src: "/team/chad-tons-about.jpg",
-    alt: "Chad Tons",
-    width: 1068,
-    height: 1600,
-  } satisfies Asset,
 } as const;
 
 export const value = {
