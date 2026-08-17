@@ -132,7 +132,7 @@ export const nav = {
 export const hero = {
   pill: "8-Week Experiential Fellowship",
   headline: {
-    lead: "Your 8-Week Journey to",
+    lead: "Your 8-Week Journey\u00a0to",
     /** Rendered in hero blue, always on its own line. */
     highlight: "Marketing Leadership.",
   },
@@ -171,9 +171,8 @@ export const hero = {
     height: 1258,
   } satisfies Asset,
   seal: {
-    // TODO: set `src` to the gold ribbon artwork once it lands in
-    // public/brand/. Until then the seal is drawn in SVG.
-    src: null as string | null,
+    // Sourced from brand/_to_delete/_view_goldribbon.png — see note to Brij.
+    src: "/brand/gold-ribbon-seal.png" as string | null,
     eyebrow: "Industry Recognized",
     title: "Fellowship",
     footnote: "For high school & college students",

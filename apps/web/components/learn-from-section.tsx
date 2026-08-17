@@ -21,7 +21,7 @@ function SmallCard({ title, image, focal, href }: LearnFromCard) {
     <Wrapper
       {...linkProps(href)}
       className={cn(
-        "group flex gap-4 rounded-2xl bg-hero-bg p-4 font-poppins",
+        "group flex gap-4 rounded-2xl bg-hero-bg p-4 font-poppins ring-1 ring-hero-blue/35",
         "transition-[transform,box-shadow] duration-200 ease-emphasis",
         isLink && "hover:-translate-y-1 hover:shadow-lg",
       )}
@@ -70,9 +70,9 @@ export function LearnFromSection() {
           {...linkProps(featured.href)}
           className={cn(
             "group relative mt-10 block overflow-hidden rounded-[1.25rem]",
-            "border-2 border-hero-blue-strong/70 shadow-[0_0_60px_-16px_var(--hero-blue-strong)]",
+            "border-2 border-hero-blue shadow-[0_0_80px_-14px_var(--hero-blue)]",
             "transition-shadow duration-200 ease-emphasis",
-            featuredIsLink && "hover:shadow-[0_0_70px_-10px_var(--hero-blue-strong)]",
+            featuredIsLink && "hover:shadow-[0_0_95px_-8px_var(--hero-blue)]",
           )}
         >
           <Media
@@ -110,7 +110,7 @@ export function LearnFromSection() {
 
         {/* Quote + bio. The gradient runs to the bottom-right so the reading
             column on the right sits on the darker end. */}
-        <div className="mt-[1.375rem] overflow-hidden rounded-3xl bg-[linear-gradient(135deg,var(--quote-from)_0%,var(--quote-to)_100%)] shadow-[0_0_70px_-24px_var(--quote-from)] ring-1 ring-white/25">
+        <div className="mt-[1.375rem] overflow-hidden rounded-3xl bg-[linear-gradient(135deg,var(--quote-from)_0%,var(--quote-to)_100%)] shadow-[0_0_80px_-18px_var(--quote-from)] ring-2 ring-hero-blue/70">
           <div className="grid gap-10 p-8 sm:p-12 lg:grid-cols-2 lg:gap-14 lg:p-14">
             <blockquote className="text-[clamp(1.6rem,2.6vw,2.65rem)] leading-[1.22] font-bold text-white">
               <p>

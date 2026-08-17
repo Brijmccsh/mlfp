@@ -27,7 +27,7 @@ export function SiteHeader() {
             alt={brand.logo.alt}
             width={brand.logo.width}
             height={brand.logo.height}
-            className="h-[clamp(2.25rem,5.6vw,5rem)] w-auto"
+            className="h-[clamp(2.75rem,7vw,6.5rem)] w-auto"
           />
         </Link>
 

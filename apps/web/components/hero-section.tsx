@@ -106,7 +106,7 @@ export function HeroSection() {
 
           {/* ── Right: photo + featuring panel as one glowing card ── */}
           <div className="relative">
-            <div className="overflow-hidden rounded-[1.4rem] border-2 border-hero-blue/70 bg-hero-bg-raised shadow-[0_0_60px_-12px_var(--hero-blue)]">
+            <div className="overflow-hidden rounded-[1.4rem] border-2 border-hero-blue bg-hero-bg-raised shadow-[0_0_90px_-10px_var(--hero-blue),0_0_0_1px_color-mix(in_oklab,var(--hero-blue)_45%,transparent)]">
               <Media
                 src={hero.image.src}
                 alt={hero.image.alt}
@@ -147,7 +147,7 @@ export function HeroSection() {
               eyebrow={hero.seal.eyebrow}
               title={hero.seal.title}
               footnote={hero.seal.footnote}
-              className="absolute -top-8 -right-6 w-32 lg:-top-10 lg:-right-10 lg:w-40"
+              className="absolute -top-10 -right-6 w-36 sm:w-44 lg:-top-14 lg:-right-12 lg:w-56"
             />
           </div>
         </div>

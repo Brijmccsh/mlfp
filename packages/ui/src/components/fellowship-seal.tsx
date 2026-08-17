@@ -31,21 +31,10 @@ function DrawnSeal() {
           <stop offset="100%" stopColor="#e3c179" />
         </linearGradient>
       </defs>
-      {/* Ribbon tails, behind the ring. */}
       <path d="M62 150 L62 232 L100 208 L138 232 L138 150 Z" fill="url(#mlfp-seal-gold)" />
       <path d="M100 208 L138 232 L138 196 Z" fill="#8d6018" opacity="0.55" />
-      {/* Ring. */}
       <circle cx="100" cy="96" r="88" fill="url(#mlfp-seal-gold)" />
       <circle cx="100" cy="96" r="76" fill="var(--hero-bg-raised)" />
-      <circle
-        cx="100"
-        cy="96"
-        r="80"
-        fill="none"
-        stroke="url(#mlfp-seal-gold)"
-        strokeWidth="2"
-        opacity="0.7"
-      />
     </svg>
   );
 }
@@ -58,29 +47,37 @@ export function FellowshipSeal({
   className,
 }: FellowshipSealProps) {
   return (
-    <span className={cn("relative inline-block aspect-[5/6] w-40", className)}>
+    <span
+      className={cn(
+        // Matches the artwork's 1080x1612 so nothing letterboxes.
+        "relative inline-block aspect-[1080/1612] w-40",
+        className,
+      )}
+    >
       {src ? (
         <Image
           src={src}
           alt=""
           fill
-          sizes="10rem"
-          className="object-contain"
+          sizes="14rem"
+          // The glow reads as the seal catching light, not a box shadow.
+          className="object-contain drop-shadow-[0_0_28px_rgb(212_175_86/0.55)]"
           aria-hidden
         />
       ) : (
         <DrawnSeal />
       )}
 
-      {/* Text sits on the seal's navy centre, which is the upper ~72%. */}
-      <span className="absolute inset-x-0 top-0 flex h-[72%] flex-col items-center justify-center px-7 text-center">
-        <span className="text-[0.5rem] leading-tight font-semibold tracking-[0.14em] text-hero-gold uppercase">
+      {/* Measured from the artwork: the navy field spans 8.9%-58.6% vertically
+          and 13%-87% horizontally. The text is centred inside that. */}
+      <span className="absolute top-[8.9%] right-[13%] left-[13%] flex h-[49.7%] flex-col items-center justify-center px-[7%] text-center">
+        <span className="text-[0.5rem] leading-tight font-semibold tracking-[0.14em] text-hero-gold uppercase sm:text-[0.58rem]">
           {eyebrow}
         </span>
-        <span className="mt-1 text-sm leading-none font-bold tracking-wide text-white uppercase">
+        <span className="mt-1 text-sm leading-none font-bold tracking-wide text-white uppercase sm:text-base">
           {title}
         </span>
-        <span className="mt-1 text-[0.44rem] leading-tight font-medium tracking-[0.08em] text-white/80 uppercase">
+        <span className="mt-1.5 text-[0.44rem] leading-tight font-medium tracking-[0.08em] text-white/85 uppercase sm:text-[0.5rem]">
           {footnote}
         </span>
       </span>

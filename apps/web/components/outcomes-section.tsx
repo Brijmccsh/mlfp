@@ -55,8 +55,9 @@ export function OutcomesSection() {
             </p>
           </div>
 
-          {/* Dark mat + lift, so it reads as a framed certificate. */}
-          <div className="rotate-[-1.2deg] rounded-xl bg-hero-card p-3 shadow-[0_30px_70px_-25px_rgb(0_0_0/0.85)] ring-1 ring-hero-border sm:p-4">
+          {/* Dark mat + lift. Deliberately not rotated — a tilt reads as a
+              crooked frame rather than a designed lift. */}
+          <div className="rounded-xl bg-hero-card p-3 shadow-[0_30px_70px_-25px_rgb(0_0_0/0.85)] ring-1 ring-hero-border sm:p-4">
             <Image
               src={outcomes.certificate.src}
               alt={outcomes.certificate.alt}
