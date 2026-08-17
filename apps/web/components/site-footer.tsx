@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Container, Logo } from "@mlfp/ui";
 
 import { brand, footer } from "@/content/landing";
@@ -30,12 +32,12 @@ export function SiteFooter() {
                 <ul className="flex flex-col gap-4">
                   {group.map((link) => (
                     <li key={link.href}>
-                      <a
+                      <Link
                         href={link.href}
                         className="text-hero-muted transition-colors hover:text-white"
                       >
                         {link.label}
-                      </a>
+                      </Link>
                     </li>
                   ))}
 

@@ -95,12 +95,12 @@ export function HeroSection() {
                 {hero.primaryCta.label}
                 <ArrowRight className="size-4" />
               </Link>
-              <a
+              <Link
                 href={hero.secondaryCta.href}
                 className="inline-flex h-13 items-center rounded-lg border border-hero-blue/60 px-7 font-medium text-white transition-colors duration-200 ease-emphasis hover:bg-hero-blue/12"
               >
                 {hero.secondaryCta.label}
-              </a>
+              </Link>
             </div>
           </div>
 

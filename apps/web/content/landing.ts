@@ -117,12 +117,14 @@ export const brand = {
 export const nav = {
   // Modules and The Challenge are two halves of the merged 8-Week Journey
   // section, so each deep-links to its own column rather than the section top.
+  // Root-relative, not bare fragments: the header and footer are shared with
+  // /apply, where a bare "#faq" has no target and the click does nothing.
   links: [
-    { label: "Program", href: "#program" },
-    { label: "Modules", href: "#journey-modules" },
-    { label: "The Challenge", href: "#journey-challenge" },
-    { label: "Outcomes", href: "#outcomes" },
-    { label: "FAQ", href: "#faq" },
+    { label: "Program", href: "/#program" },
+    { label: "Modules", href: "/#journey-modules" },
+    { label: "The Challenge", href: "/#journey-challenge" },
+    { label: "Outcomes", href: "/#outcomes" },
+    { label: "FAQ", href: "/#faq" },
   ] satisfies NavLink[],
   cta: { label: "Apply Now", href: "/apply" },
 } as const;
@@ -158,7 +160,7 @@ export const hero = {
     },
   ] satisfies HeroFeature[],
   primaryCta: { label: "Apply Now", href: "/apply" },
-  secondaryCta: { label: "Explore the Program", href: "#program" },
+  secondaryCta: { label: "Explore the Program", href: "/#program" },
   image: {
     // Card-framed derivative: the portrait original is cropped to his body and
     // the plain studio backdrop mirrored outward, so he fills the mockup's
@@ -310,12 +312,10 @@ export const journey = {
   heading: "A Fellowship Based On The Way Agencies Actually Work",
   body: "A step-by-step fellowship designed to take you from foundational insights to a real-world CEO challenge \u2014 the brief, the budget, the channel plan, and the room where the work gets sold.",
   badge: {
-    // TODO: swap to ceo-challenge-logo-v2 (arms-open) when it lands; this is
-    // the seated version of the same lockup.
-    src: "/brand/ceo-challenge-logo.png",
+    src: "/brand/ceo-challenge-logo-v2.jpg",
     alt: "The CEO Challenge",
-    width: 863,
-    height: 1000,
+    width: 1254,
+    height: 1254,
   } satisfies Asset,
 
   modules: {

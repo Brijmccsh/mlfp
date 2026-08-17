@@ -20,7 +20,7 @@ export function SiteHeader() {
   return (
     <header className="dark sticky top-0 z-50 bg-hero-bg/95 font-poppins backdrop-blur-md">
       <Container width="wide" className="flex items-center justify-between gap-6 py-4">
-        <a href="#top" className="shrink-0" aria-label={brand.name}>
+        <Link href="/" className="shrink-0" aria-label={brand.name}>
           <Logo
             src={brand.logo.src}
             srcDark={brand.logo.srcDark}
@@ -29,17 +29,17 @@ export function SiteHeader() {
             height={brand.logo.height}
             className="h-[clamp(2.25rem,5.6vw,5rem)] w-auto"
           />
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
           {nav.links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="text-[0.95rem] text-white/75 transition-colors hover:text-white"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -72,14 +72,14 @@ export function SiteHeader() {
         >
           <Container width="wide" className="flex flex-col py-2">
             {nav.links.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="border-b border-white/10 py-3.5 text-base font-medium text-white/75 transition-colors last:border-0 hover:text-white"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             <Link
               href={nav.cta.href}

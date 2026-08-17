@@ -53,9 +53,9 @@ export function JourneySection() {
     >
       <Container width="wide">
         {/* Heading beside the challenge lockup. */}
-        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.25fr_0.88fr] lg:gap-10">
           <div>
-            <h2 className="max-w-xl text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.14] font-bold tracking-tight text-balance text-foreground">
+            <h2 className="max-w-3xl text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.14] font-bold tracking-tight text-balance text-foreground">
               {journey.heading}
             </h2>
             <p className="mt-7 max-w-lg leading-relaxed font-medium text-foreground-muted">
@@ -69,13 +69,16 @@ export function JourneySection() {
             width={journey.badge.width}
             height={journey.badge.height}
             sizes="(min-width: 1024px) 34vw, 70vw"
-            className="mx-auto h-auto w-full max-w-sm lg:max-w-md"
+            className="mx-auto h-auto w-full max-w-sm lg:mr-0 lg:ml-auto lg:max-w-lg"
           />
         </div>
 
         {/* Two cards */}
         <div className="mt-14 grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
-          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+          <div
+            id="journey-modules"
+            className="overflow-hidden scroll-mt-28 rounded-2xl border border-border bg-surface shadow-sm"
+          >
             <CardHeader
               icon={BookOpen}
               title={journey.modules.title}
@@ -96,7 +99,10 @@ export function JourneySection() {
             </ol>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+          <div
+            id="journey-challenge"
+            className="overflow-hidden scroll-mt-28 rounded-2xl border border-border bg-surface shadow-sm"
+          >
             <CardHeader
               icon={Megaphone}
               title={journey.challenge.title}
