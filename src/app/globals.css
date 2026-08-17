@@ -147,6 +147,17 @@
   [data-m="hero-logo"] {
     display: none !important;
   }
+  /*
+   * MLFP-3: in this band the oversized hero logo is hidden but the mobile bar
+   * has not appeared yet (that starts at 900px), and the header logo is
+   * normally transparent until scrolled — which left no logo at all at the top
+   * of the page. Force the header logo visible here.
+   */
+  [data-m="desktop-nav"] > img {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
   [data-m="press-row"] {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
@@ -244,8 +255,13 @@
   [data-m="pull-quote"] {
     font-size: 34px !important;
   }
+  /*
+   * MLFP-4: once the hero is a single column the card would otherwise stretch
+   * to the full page width, making the portrait enormous. Cap and centre it.
+   */
   [data-m="portrait-card"] {
-    margin: 24px 0 0 !important;
+    margin: 24px auto 0 !important;
+    max-width: 520px !important;
   }
   [data-m="press-row"] {
     grid-template-columns: minmax(0, 1fr) !important;
@@ -318,9 +334,7 @@
   [data-m="hero-cta"] > a {
     width: auto !important;
   }
-  [data-m="portrait"] {
-    height: 340px !important;
-  }
+  /* MLFP-4: aspect-ratio drives the height now — no fixed override needed. */
   [data-m="outcome-cards"] {
     grid-template-columns: 1fr !important;
     gap: 12px !important;

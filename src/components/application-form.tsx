@@ -159,6 +159,23 @@ function Select({
 
 const words = (t: string) => (t.trim() ? t.trim().split(/\s+/).length : 0);
 
+/**
+ * MLFP-2: cap at 10 digits and format as the user types. Non-digits are
+ * stripped first, so pasting "+1 (555) 555-5555" or "555.555.5555" both land
+ * on the same 10 digits rather than being truncated mid-string.
+ */
+export function formatPhone(raw: string) {
+  let digits = raw.replace(/\D/g, "");
+  // A pasted "+1 555..." is 11 digits; drop the country code rather than
+  // truncating the last digit off the real number. No NANP area code starts
+  // with 1, so this is unambiguous.
+  if (digits.length === 11 && digits.startsWith("1")) digits = digits.slice(1);
+  const d = digits.slice(0, 10);
+  if (d.length <= 3) return d;
+  if (d.length <= 6) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
+  return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}`;
+}
+
 export function ApplicationForm() {
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
@@ -498,8 +515,10 @@ export function ApplicationForm() {
                       </label>
                       <input
                         value={form.phone}
-                        onChange={(e) => set("phone")(e.target.value)}
+                        onChange={(e) => set("phone")(formatPhone(e.target.value))}
                         placeholder="(555) 555-5555"
+                        inputMode="tel"
+                        autoComplete="tel"
                         style={inputStyle}
                       />
                     </div>

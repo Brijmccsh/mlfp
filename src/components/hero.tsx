@@ -400,6 +400,14 @@ export function Hero() {
                 "0 0 0 1px rgba(180,215,255,0.55), 0 0 16px rgba(120,175,255,0.85), 0 0 40px rgba(61,123,255,0.6), 0 0 100px rgba(10,107,255,0.42), 0 0 190px rgba(10,107,255,0.22), 0 30px 70px rgba(2,7,22,0.6)",
             }}
           >
+            {/*
+              MLFP-4: the source is 900x1348 with the subject occupying roughly
+              30%-77% of the frame. A fixed pixel height meant the crop window
+              changed with the card width — once the hero collapses to one
+              column the box gets very wide, the vertical crop deepens, and
+              object-position pushes it below his head. An aspect ratio keeps
+              the crop identical at every width.
+            */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/team/chad-tons-seated.jpg"
@@ -407,7 +415,7 @@ export function Hero() {
               alt="Chad Tons, guest instructor"
               style={{
                 width: "100%",
-                height: 440,
+                aspectRatio: "11 / 10",
                 objectFit: "cover",
                 objectPosition: "50% 57%",
                 background: "#f2f0ec",
