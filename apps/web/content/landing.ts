@@ -38,10 +38,18 @@ export type ChallengeFacet = {
   description: string;
 };
 
+export type OutcomeIcon = "award" | "briefcase" | "chart" | "clipboard" | "trophy";
+
 export type Outcome = {
-  title: string;
+  icon: OutcomeIcon;
+  /** Line 1 renders white, line 2 renders brand blue. */
+  titleTop: string;
+  titleBottom: string;
   description: string;
 };
+
+/** A phrase in the closing tagline. `accent` renders in brand blue. */
+export type TaglinePhrase = { text: string; accent?: boolean };
 
 export type ValueProp = {
   title: string;
@@ -58,28 +66,32 @@ export type SelectOption = { value: string; label: string };
 /** Keys the hero maps to lucide icons. */
 export type FeatureIcon = "target" | "lightbulb" | "users" | "trophy";
 
+export type HeroCredential = {
+  icon: "shield" | "star";
+  label: string;
+};
+
 export type HeroFeature = {
   icon: FeatureIcon;
   title: string;
   description: string;
 };
 
-export type PressItem = {
+export type LearnFromCard = {
   title: string;
-  /** null renders a placeholder tile until the real asset lands. */
-  image: string | null;
-  /**
-   * CSS object-position aiming the 3:2 crop. Only needed where the source
-   * aspect differs enough that centring would cut something that matters.
-   */
+  image: string;
+  /** CSS object-position aiming the crop where centring would cut something. */
   focal?: string;
-  /** null renders a non-interactive card until the real URL lands. */
+  /** null renders a non-interactive card rather than a dead link. */
   href: string | null;
 };
 
 export type FormField = { name: string; label: string; placeholder: string };
 
 export type EssayPrompt = { name: string; prompt: string; placeholder: string };
+
+/** One step of the /apply flow. */
+export type ApplyStep = { id: string; label: string; title: string };
 
 /** Canonical vocabulary. The API validates against these, so the two can’t drift. */
 export const EDUCATION_LEVELS = ["high_school", "college"] as const;
@@ -112,17 +124,17 @@ export const nav = {
     { label: "Outcomes", href: "#outcomes" },
     { label: "FAQ", href: "#faq" },
   ] satisfies NavLink[],
-  cta: { label: "Apply Now", href: "#apply" },
+  cta: { label: "Apply Now", href: "/apply" },
 } as const;
 
 export const hero = {
   pill: "8-Week Experiential Fellowship",
   headline: {
-    lead: "Learn the strategies, frameworks, and creative thinking behind building",
-    /** Rendered in brand blue. */
-    highlight: "award\u2011winning, 360-degree marketing campaigns.",
+    lead: "Your 8-Week Journey to",
+    /** Rendered in hero blue, always on its own line. */
+    highlight: "Marketing Leadership.",
   },
-  body: "An immersive, real-world fellowship for the next generation of marketing leaders. Taught by industry experts. Built for impact.",
+  body: "A step-by-step fellowship designed to take you from foundational insights to a real-world CEO challenge.",
   features: [
     {
       icon: "target",
@@ -145,22 +157,82 @@ export const hero = {
       description: "Earn a certificate of completion.",
     },
   ] satisfies HeroFeature[],
-  primaryCta: { label: "Apply Now", href: "#apply" },
+  primaryCta: { label: "Apply Now", href: "/apply" },
   secondaryCta: { label: "Explore the Program", href: "#program" },
   image: {
-    src: "/team/chad-tons-hero.jpg",
-    alt: "Chad Tons, guest instructor",
-    width: 1068,
-    height: 1600,
+    // Card-framed derivative: the portrait original is cropped to his body and
+    // the plain studio backdrop mirrored outward, so he fills the mockup's
+    // landscape card without losing his feet.
+    src: "/team/chad-tons-seated-card.jpg",
+    alt: "Chad Tons, seated",
+    width: 1664,
+    height: 1258,
   } satisfies Asset,
+  seal: {
+    // TODO: set `src` to the gold ribbon artwork once it lands in
+    // public/brand/. Until then the seal is drawn in SVG.
+    src: null as string | null,
+    eyebrow: "Industry Recognized",
+    title: "Fellowship",
+    footnote: "For high school & college students",
+  },
   card: {
-    eyebrow: "Guest Instructor",
+    eyebrow: "Featuring",
     name: "Chad Tons",
     role: "Founder & CEO, Infinity Marketing Team",
-    quote:
-      "I’ve built campaigns that move markets, win awards, and break through the noise. Now, I’m here to help you do the same.",
+    credentials: [
+      { icon: "shield", label: "USC Marshall Entrepreneur Hall of Fame" },
+      { icon: "star", label: "USA Today\u2019s Notable Entrepreneurs of 2026" },
+    ] satisfies HeroCredential[],
   },
 } as const;
+
+export const learnFrom = {
+  heading: "Who You\u2019ll Learn From",
+  featured: {
+    title: "Chad Tons Keynotes USC Marshall Leadership Summit",
+    // TODO: swap to the wide keynote asset when it lands. The current file is
+    // a 661x771 portrait, so the banner is held at 16:9 — anything wider
+    // starts cutting the "SUMMIT" line off the screen behind him.
+    image: "/press/usc-marshall-summit.jpg",
+    focal: "center 42%",
+    href: "https://www.marshall.usc.edu/posts/marshall-alumni-reconnect-at-leadership-summit",
+  } satisfies LearnFromCard,
+  cards: [
+    {
+      title: "Tons Keynotes Pico Global Conference",
+      image: "/press/pico-international-conference.jpg",
+      href: "https://www.linkedin.com/posts/chadtons_always-a-highlight-to-end-my-year-imt-and-activity-7407860934221869056-pWOo",
+    },
+    {
+      title: "Chad Tons Family Caf\u00e9 unveiled at USC\u2019s Fertitta Hall",
+      image: "/press/chad-tons-family-cafe.jpg",
+      href: "https://www.marshall.usc.edu/posts/chad-tons-caf-unveiled-in-fertitta-hall",
+    },
+    {
+      title: "USA Today\u2019s Notable Entrepreneurs of 2026",
+      image: "/team/chad-tons-seated.jpg",
+      focal: "center 52%",
+      href: null,
+    },
+  ] satisfies LearnFromCard[],
+
+  // NOTE: this copy is currently identical to the `about` section's quote and
+  // bio, so the page states it twice. Kept standalone rather than referencing
+  // `about` so this block survives if that section is retired.
+  quoteCard: {
+    quote:
+      "Great marketing doesn\u2019t just sell, it moves people, shifts culture, and drives real impact.",
+    name: "Chad Tons",
+    role: "Founder & CEO, Infinity Marketing Team",
+    body: [
+      "Chad Tons has spent his career building integrated campaigns for brands operating at national scale \u2014 the kind of work where strategy, media, creative, and measurement have to move as one or not at all.",
+      "He founded Infinity Marketing Team to do that work end to end, and built the fellowship because the gap between how marketing is taught and how it is practised kept showing up in the people he hired.",
+      "He teaches every module himself, and sits in the room for every final pitch.",
+    ],
+  },
+} as const;
+
 
 export const credibility = {
   lead: "Built on the playbook behind campaigns for some of the world’s biggest brands.",
@@ -228,13 +300,19 @@ export const program = {
       detail: "Live pitch, awards, and recognition.",
     },
   ] satisfies ProgramPhase[],
+  cta: {
+    note: "Applications for the next cohort are open.",
+    label: "Apply Now",
+    href: "/apply",
+  },
 } as const;
 
 export const journey = {
-  eyebrow: "Program structure",
-  heading: "Your 8-Week Journey to Marketing Leadership",
-  body: "A step-by-step fellowship designed to take you from foundational insights to a real-world CEO challenge.",
+  heading: "A Fellowship Based On The Way Agencies Actually Work",
+  body: "A step-by-step fellowship designed to take you from foundational insights to a real-world CEO challenge \u2014 the brief, the budget, the channel plan, and the room where the work gets sold.",
   badge: {
+    // TODO: swap to ceo-challenge-logo-v2 (arms-open) when it lands; this is
+    // the seated version of the same lockup.
     src: "/brand/ceo-challenge-logo.png",
     alt: "The CEO Challenge",
     width: 863,
@@ -243,27 +321,30 @@ export const journey = {
 
   modules: {
     title: "Module-by-Module Outline",
-    meta: "(Weeks 1–4)",
+    meta: "(Weeks 1\u20134)",
     items: [
       {
-        title: "Welcome & IMT Story",
+        title: "Module 1 \u2013 Welcome & IMT Story",
         description:
-          "Chad Tons’ background, the evolution of experiential marketing, IMT’s founding, growth, and 2002–2025 campaign highlights.",
+          "Chad Tons\u2019 background (Nike, Adidas), the evolution of experiential marketing, IMT\u2019s founding, growth, and 2002\u20132025 campaign highlights.",
       },
       {
-        title: "Mission, Vision & Capabilities",
+        title: "Module 2 \u2013 Mission, Vision & Capabilities",
         description:
-          "IMT’s mission and vision, the full-service toolbox (pre-event, design & fabrication, production, amplification, influencer programs, PICO partnership), and award-winning case studies (State Farm Gamerhood, HP x Coachella REGEN, State Farm “Batman vs. Bateman”).",
+          "IMT\u2019s mission and vision, the full-service toolbox (pre-event, design & fabrication, production, amplification, influencer programs, PICO partnership), and award-winning case studies (State Farm Gamermood, HP x Coachella REGEN, State Farm \u201cBatman vs. Bateman\u201d).",
       },
       {
-        title: "Building a 360 Campaign",
+        // NOTE: the supplied copy ended "...State Farm x Khaby Lame and Archer
+        // x Usher case studies." The Archer reference is omitted under the
+        // standing rule that "Archer" must never render on the site.
+        title: "Module 3 \u2013 Building a 360 Campaign",
         description:
-          "The 360 framework (brand strategy, audience intelligence, content/creative, channel mix, journey mapping, martech stack, analytics/attribution, governance), 2025 marketing trends, offline-to-digital integration, and the concept of “Big Swing” ideas, illustrated with the State Farm x Khaby Lame case study.",
+          "The 360 framework (brand strategy, audience intelligence, content/creative, channel mix, journey mapping, martech stack, analytics/attribution, governance), 2025 marketing trends, offline-to-digital integration, and the concept of \u201cBig Swing\u201d ideas, illustrated with the State Farm x Khaby Lame case study.",
       },
       {
-        title: "The CEO Challenge Client",
+        title: "Module 4 \u2013 The CEO Challenge Client",
         description:
-          "Introduction of the live IMT client: company overview, technology, target audience, brand voice, launch markets, and the strategic tension the campaign must solve.",
+          "Introduction of the live IMT client \u2014 company overview, technology, target audience, brand voice, launch markets, and the strategic tension the campaign must solve.",
       },
     ] satisfies JourneyModule[],
   },
@@ -282,13 +363,13 @@ export const journey = {
         icon: "folder",
         label: "Deliverables",
         description:
-          "A written report and pitch deck allocating budget and proposals across four channels: Linear/Traditional, Digital Content/Social, Experiential/Events, and Big Swings.",
+          "A written report and pitch deck allocating budget and proposals across four channels \u2014 Linear/Traditional, Digital Content/Social, Experiential/Events, and Big Swings.",
       },
       {
         icon: "target",
         label: "Key Objectives",
         description:
-          "Increase market reach; educate on safety & trust; promote the consumer experience; and leverage the client’s partners.",
+          "Increase market reach; educate on safety & trust; promote the consumer experience; and leverage the client\u2019s partners.",
       },
       {
         icon: "users",
@@ -298,29 +379,73 @@ export const journey = {
       },
     ] satisfies ChallengeFacet[],
   },
+
+  bottomBar: {
+    headline: "Four modules, then the live brief.",
+    note: "The application takes approx. 1 hr \u2014 you can save and return.",
+    cta: { label: "Apply Now", href: "/apply" },
+  },
 } as const;
 
 export const outcomes = {
-  eyebrow: "Outcomes & Recognition",
-  heading: "What you leave with.",
-  body: "The work is the outcome. The recognition is what makes it legible to everyone else.",
+  /** Each line is a white run followed by a brand-blue run. */
+  headingLines: [
+    { plain: "Uplevel your", accent: "resume &" },
+    { plain: "college or", accent: "job application." },
+  ],
+  subhead: {
+    plain: "Real skills. Real work. Real recognition that",
+    accent: "opens doors.",
+  },
+  certificate: {
+    src: "/brand/mlfp-certificate-logo.png",
+    alt: "Marketing Leaders Fellow certificate signed by Chad Tons",
+    width: 700,
+    height: 524,
+  } satisfies Asset,
   items: [
     {
-      title: "Certificate of Completion",
+      icon: "award",
+      titleTop: "Industry-Recognized",
+      titleBottom: "Fellowship",
       description:
-        "Every fellow who completes the program receives a certificate naming the fellowship and the cohort.",
+        "Finish as a Marketing Leaders Fellow \u2014 a credential that reads clearly on a resume, a LinkedIn profile and a college application.",
     },
     {
-      title: "Channel Awards",
+      icon: "briefcase",
+      titleTop: "Portfolio-Ready",
+      titleBottom: "Work",
       description:
-        "Awards are given across each of the four marketing channels, recognising the strongest work in every discipline rather than a single overall winner.",
+        "You leave holding a real $25M campaign strategy and pitch deck for a live client \u2014 polished enough to show and talk through.",
     },
     {
-      title: "Letter of Recommendation",
+      icon: "chart",
+      titleTop: "Real Industry",
+      titleBottom: "Skills",
       description:
-        "The winning team receives a personal letter of recommendation from Chad Tons — the kind that carries weight because it is specific.",
+        "Strategy, branding, digital, social, analytics, content and presenting \u2014 the same skills working marketers use every week.",
+    },
+    {
+      icon: "clipboard",
+      titleTop: "Resume + College",
+      titleBottom: "App Upgrade",
+      description:
+        "A selective, project-based fellowship that demonstrates initiative, leadership, collaboration and applied learning.",
+    },
+    {
+      icon: "trophy",
+      titleTop: "Recognition That",
+      titleBottom: "Sets You Apart",
+      description:
+        "Channel awards across all four disciplines, plus a personal letter of recommendation from Chad Tons for the winning team.",
     },
   ] satisfies Outcome[],
+  tagline: [
+    { text: "Do the work." },
+    { text: "Get recognized.", accent: true },
+    { text: "Open more doors." },
+  ] satisfies TaglinePhrase[],
+  taglineSeparator: "\u00b7",
 } as const;
 
 export const about = {
@@ -344,35 +469,6 @@ export const about = {
     width: 1068,
     height: 1600,
   } satisfies Asset,
-} as const;
-
-export const press = {
-  eyebrow: "Appearances and press",
-  items: [
-    {
-      title: "Tons Keynotes USC Marshall Summit",
-      image: "/press/usc-marshall-summit.jpg",
-      // Portrait source in a 3:2 frame. Biased slightly high so the summit
-      // screen and Chad's head both survive the crop.
-      focal: "center 42%",
-      href: "https://www.marshall.usc.edu/posts/marshall-alumni-reconnect-at-leadership-summit",
-    },
-    {
-      title: "Tons Keynotes Pico Global Conference",
-      // Source is already 3:2, so it needs no focal adjustment.
-      image: "/press/pico-international-conference.jpg",
-      // Canonical permalink. The share link this came from carried utm_* and
-      // an `rcm` token tied to the sharer's account; both are stripped.
-      href: "https://www.linkedin.com/posts/chadtons_always-a-highlight-to-end-my-year-imt-and-activity-7407860934221869056-pWOo",
-    },
-    {
-      title: "Chad Tons Family Café Unveiled at Fertitta Hall",
-      // 16:9 source: wider than the frame, so it crops at the sides only and
-      // the café signage above the group is never at risk. No focal needed.
-      image: "/press/chad-tons-family-cafe.jpg",
-      href: "https://www.marshall.usc.edu/posts/chad-tons-caf-unveiled-in-fertitta-hall",
-    },
-  ] satisfies PressItem[],
 } as const;
 
 export const value = {
@@ -405,36 +501,42 @@ export const value = {
 export const faq = {
   eyebrow: "FAQ",
   heading: "Questions, answered.",
+  subhead:
+    "Everything applicants ask before they start. If yours isn\u2019t here, write to us directly.",
+  contact: {
+    label: "Still have a question?",
+    email: brand.email,
+  },
   items: [
     {
       question: "Who is eligible to apply?",
       answer:
-        "High school and college students are both welcome. No prior marketing coursework is required — the first module starts from first principles and builds from there.",
+        "High school and college students. No prior marketing coursework is required \u2014 what matters is that you show up ready to do the work.",
     },
     {
       question: "How much time does the program take?",
       answer:
-        "Expect roughly 3–5 hours per week during the four self-paced modules, and more during the Challenge weeks as your team builds the strategy, report, and deck. The program runs eight weeks end to end.",
+        "Roughly 3\u20135 hours per week during the self-paced modules, with more during the team project weeks.",
     },
     {
       question: "Is the program remote?",
       answer:
-        "Yes. The modules are self-paced and online, team work happens remotely, and final pitches are delivered live over video so fellows can take part from anywhere.",
+        "Yes. Modules are self-paced online, and team sessions and the final pitch happen live over Zoom.",
     },
     {
       question: "What exactly is the CEO Challenge?",
       answer:
-        "Teams receive a real client brief with a $25M budget and design a full 360 campaign against it. The deliverables are a written campaign strategy and a pitch deck, presented live to Chad Tons in the final week.",
+        "A live client brief: in teams, design a $25M 360 marketing campaign, then present it live to Chad Tons for scoring and feedback.",
     },
     {
       question: "Do I need to bring my own team?",
       answer:
-        "No. Teams are formed within the cohort once the self-paced modules are complete, so you will be working with other fellows regardless of how you applied.",
+        "No. Teams are formed inside the program, with an MLFP Coordinator supporting each one.",
     },
     {
       question: "What do I receive at the end?",
       answer:
-        "Every fellow who completes the program receives a certificate. Awards are given across each of the four marketing channels, and the winning team receives a letter of recommendation from Chad Tons.",
+        "A portfolio-grade campaign and pitch deck, a certificate of completion, and \u2014 for the winning team \u2014 a letter of recommendation.",
     },
   ] satisfies FaqEntry[],
 } as const;
@@ -560,9 +662,92 @@ export const application = {
   },
 } as const;
 
+export const apply = {
+  heading: "Apply to the Marketing Leaders Fellowship",
+  subhead:
+    "The application takes about an hour \u2014 your progress saves automatically, so you can leave and come back.",
+  draftSaved: "Draft saved",
+  // The CTA panel renders this same array, so the preview can never drift
+  // from the real form.
+  steps: [
+    { id: "about", label: "About you", title: "About you" },
+    { id: "academics", label: "Cohort & academics", title: "Cohort & academics" },
+    { id: "activities", label: "Activities & honors", title: "Activities & honors" },
+    { id: "links", label: "Links & portfolio", title: "Links & portfolio" },
+    { id: "essays", label: "Three short essays", title: "Three short essays" },
+  ] satisfies ApplyStep[],
+  stepCounter: "Step {current} of {total}",
+  backLabel: "Back",
+  continueLabel: "Continue",
+  submitLabel: "Submit application",
+  submittingLabel: "Submitting\u2026",
+  retryLabel: "Try again",
+
+  // Essay prompts are EDITABLE — swap the wording freely. The `name` values are
+  // the keys stored in the `details.essays` jsonb, so change those deliberately.
+  essayPrompts: [
+    {
+      name: "why_join",
+      prompt:
+        "Why do you want to join the Marketing Leaders Fellowship, and what do you hope to take from the CEO Challenge?",
+      placeholder: "Be specific about what you want out of the eight weeks.",
+    },
+    {
+      name: "admired_campaign",
+      prompt:
+        "Describe a marketing campaign or \u201cbig swing\u201d idea you admire \u2014 and what you\u2019d have done differently.",
+      placeholder: "We care more about your reasoning than the brand you pick.",
+    },
+    {
+      name: "team_under_pressure",
+      prompt:
+        "Tell us about a time you led or contributed to a team under pressure. What was your role, and what was the outcome?",
+      placeholder: "It does not have to be marketing work.",
+    },
+  ] satisfies EssayPrompt[],
+
+  anythingElse: {
+    label: "Anything else you\u2019d like us to know?",
+    placeholder: "Optional.",
+  },
+
+  errors: {
+    required: "This one is required.",
+    email: "Enter a valid email address.",
+    url: "Enter a full URL, starting with https://",
+    gradYear: "Enter a four-digit year.",
+    activity: "Add at least one activity, with an organization or activity name.",
+    generic:
+      "Something went wrong submitting your application. Please try again, or email us directly.",
+    duplicate: "It looks like you\u2019ve already applied for this cohort.",
+    invalid: "Some answers need another look. Check the highlighted fields.",
+  },
+
+  success: {
+    title: "Application received",
+    /** `{firstName}` is replaced with the applicant's first name. */
+    body: "Thanks, {firstName} \u2014 our team will review your application and get back to you shortly. Keep an eye on your inbox.",
+    backLabel: "Back to home",
+  },
+} as const;
+
+
 export const footer = {
   tagline: "An eight-week experiential fellowship in marketing leadership.",
-  links: nav.links,
+  // Reuses the nav hrefs so the footer can never point somewhere the nav does not.
+  linkGroups: [nav.links.slice(0, 3), nav.links.slice(3)] satisfies NavLink[][],
   email: brand.email,
   copyright: `© ${new Date().getFullYear()} Marketing Leaders Fellowship Program. All rights reserved.`,
+} as const;
+
+export const applyCta = {
+  heading: "Apply now",
+  subheading: { plain: "Take the", accent: "first step." },
+  body: "Tell us about yourself and your goals. We\u2019re looking for curious, motivated students ready to do real work for a real client.",
+  cta: { label: "Start your application", href: "/apply" },
+  note: "Rolling admissions. No application fee.",
+  panel: {
+    title: "The application, in five steps",
+    footnote: "Approx. 1 hr \u00b7 Save and return anytime",
+  },
 } as const;

@@ -29,10 +29,11 @@ export type ApplicationDetails = {
     portfolio?: string;
     other?: string;
   };
+  anything_else?: string;
   essays: {
-    favorite_campaign: string;
-    promoted_something: string;
     why_join: string;
+    admired_campaign: string;
+    team_under_pressure: string;
   };
 };
 

@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
+  ArrowRight,
   BookOpen,
   Folder,
   Megaphone,
@@ -8,7 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-import { Container, DottedGrid, Eyebrow, IconChip, NumberBadge } from "@mlfp/ui";
+import { Container, IconChip } from "@mlfp/ui";
 
 import { journey } from "@/content/landing";
 import type { ChallengeFacet } from "@/content/landing";
@@ -20,113 +22,123 @@ const FACET_ICONS: Record<ChallengeFacet["icon"], LucideIcon> = {
   users: Users,
 };
 
-/** Replaces the former standalone Modules and Challenge sections. */
+/** Dark navy bar across the top of each card. */
+function CardHeader({
+  icon: Icon,
+  title,
+  meta,
+}: {
+  icon: LucideIcon;
+  title: string;
+  meta: string;
+}) {
+  return (
+    <div className="flex items-center gap-4 bg-[linear-gradient(100deg,var(--brand-ink)_0%,var(--hero-bg-raised)_100%)] px-7 py-6">
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-white/12 text-white">
+        <Icon className="size-5" />
+      </span>
+      <h3 className="text-lg font-bold tracking-wide text-white uppercase">
+        {title}{" "}
+        <span className="text-base font-normal text-white/70 normal-case">{meta}</span>
+      </h3>
+    </div>
+  );
+}
+
 export function JourneySection() {
   return (
-    <section id="journey" className="scroll-mt-20 border-t border-border py-24 md:py-32">
-      <Container>
-        <div className="grid items-center gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16">
-          {/* The badge stacks above the heading on small screens. */}
-          <div className="relative order-1 mx-auto w-full max-w-xs lg:order-2 lg:max-w-sm">
-            <span
-              aria-hidden
-              className="absolute inset-x-[-12%] top-1/2 h-[70%] -translate-y-1/2 rounded-[50%] bg-primary-subtle"
-            />
-            <DottedGrid className="absolute -top-2 -right-2" columns={5} rows={4} />
-            <DottedGrid className="absolute -bottom-2 -left-2" columns={5} rows={4} />
-            <Image
-              src={journey.badge.src}
-              alt={journey.badge.alt}
-              width={journey.badge.width}
-              height={journey.badge.height}
-              sizes="(min-width: 1024px) 24rem, 18rem"
-              className="relative h-auto w-full"
-            />
-          </div>
-
-          <div className="order-2 lg:order-1">
-            <Eyebrow underline>{journey.eyebrow}</Eyebrow>
-            <h2 className="mt-5 max-w-2xl font-display text-display-sm text-balance md:text-display-md">
+    <section
+      id="journey"
+      className="scroll-mt-24 bg-background py-20 font-poppins md:py-24"
+    >
+      <Container width="wide">
+        {/* Heading beside the challenge lockup. */}
+        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+          <div>
+            <h2 className="max-w-xl text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.14] font-bold tracking-tight text-balance text-foreground">
               {journey.heading}
             </h2>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-foreground-muted">
+            <p className="mt-7 max-w-lg leading-relaxed font-medium text-foreground-muted">
               {journey.body}
             </p>
           </div>
+
+          <Image
+            src={journey.badge.src}
+            alt={journey.badge.alt}
+            width={journey.badge.width}
+            height={journey.badge.height}
+            sizes="(min-width: 1024px) 34vw, 70vw"
+            className="mx-auto h-auto w-full max-w-sm lg:max-w-md"
+          />
         </div>
 
-        <div className="mt-16 grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
-          {/* Modules — nav "Modules" deep-links here. */}
-          <div
-            id="journey-modules"
-            className="h-full scroll-mt-24 rounded-2xl border border-border bg-surface p-7 shadow-sm sm:p-9"
-          >
-            <div className="flex items-center gap-4">
-              <IconChip>
-                <BookOpen />
-              </IconChip>
-              <h3 className="font-display text-lg font-semibold">
-                {journey.modules.title}{" "}
-                <span className="text-sm font-normal text-foreground-muted">
-                  {journey.modules.meta}
-                </span>
-              </h3>
-            </div>
-
-            <ol className="mt-8 flex flex-col gap-7">
+        {/* Two cards */}
+        <div className="mt-14 grid items-start gap-6 lg:grid-cols-2 lg:gap-8">
+          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+            <CardHeader
+              icon={BookOpen}
+              title={journey.modules.title}
+              meta={journey.modules.meta}
+            />
+            <ol className="flex flex-col gap-7 p-7 sm:p-8">
               {journey.modules.items.map((module, index) => (
                 <li key={module.title} className="flex gap-4">
-                  <NumberBadge>{index + 1}</NumberBadge>
-                  <div className="flex flex-col gap-1.5">
-                    <h4 className="font-display font-semibold">{module.title}</h4>
-                    <p className="leading-relaxed text-foreground-muted">
-                      {module.description}
-                    </p>
-                  </div>
+                  <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-primary-strong text-sm font-semibold text-white tabular-nums">
+                    {index + 1}
+                  </span>
+                  <p className="leading-relaxed text-foreground-muted">
+                    <span className="font-bold text-foreground">{module.title}:</span>{" "}
+                    {module.description}
+                  </p>
                 </li>
               ))}
             </ol>
           </div>
 
-          {/* CEO Challenge — nav "The Challenge" deep-links here. */}
-          <div
-            id="journey-challenge"
-            className="h-full scroll-mt-24 rounded-2xl border border-border bg-surface p-7 shadow-sm sm:p-9"
-          >
-            <div className="flex items-center gap-4">
-              <IconChip>
-                <Megaphone />
-              </IconChip>
-              <h3 className="font-display text-lg font-semibold">
-                {journey.challenge.title}{" "}
-                <span className="text-sm font-normal text-foreground-muted">
-                  {journey.challenge.meta}
-                </span>
-              </h3>
-            </div>
-
-            <ul className="mt-8 flex flex-col gap-7">
+          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm">
+            <CardHeader
+              icon={Megaphone}
+              title={journey.challenge.title}
+              meta={journey.challenge.meta}
+            />
+            <ul className="flex flex-col gap-7 p-7 sm:p-8">
               {journey.challenge.items.map((facet) => {
                 const Icon = FACET_ICONS[facet.icon];
 
                 return (
                   <li key={facet.label} className="flex gap-4">
-                    <IconChip size="sm">
+                    <IconChip size="sm" className="mt-0.5">
                       <Icon />
                     </IconChip>
-                    <div className="flex flex-col gap-1.5">
-                      <h4 className="text-eyebrow text-primary-subtle-foreground uppercase">
-                        {facet.label}
-                      </h4>
-                      <p className="leading-relaxed text-foreground-muted">
-                        {facet.description}
-                      </p>
-                    </div>
+                    <p className="leading-relaxed text-foreground-muted">
+                      <span className="font-bold text-foreground uppercase">
+                        {facet.label}:
+                      </span>{" "}
+                      {facet.description}
+                    </p>
                   </li>
                 );
               })}
             </ul>
           </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-6 rounded-2xl border border-border bg-surface px-7 py-6 sm:px-9">
+          <div>
+            <p className="font-bold text-foreground">{journey.bottomBar.headline}</p>
+            <p className="mt-1.5 font-semibold text-primary-subtle-foreground">
+              {journey.bottomBar.note}
+            </p>
+          </div>
+          <Link
+            href={journey.bottomBar.cta.href}
+            className="inline-flex h-12 items-center gap-2 rounded-lg bg-primary-strong px-7 font-medium text-primary-foreground transition-colors duration-200 ease-emphasis hover:bg-primary-hover"
+          >
+            {journey.bottomBar.cta.label}
+            <ArrowRight className="size-4" />
+          </Link>
         </div>
       </Container>
     </section>

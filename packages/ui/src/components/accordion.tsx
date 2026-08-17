@@ -3,16 +3,43 @@
 import type { ComponentProps } from "react";
 
 import { Content, Header, Item, Root, Trigger } from "@radix-ui/react-accordion";
-import { Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "../lib/cn";
 
-export function Accordion({ className, ...props }: ComponentProps<typeof Root>) {
-  return <Root className={cn("divide-y divide-border border-y border-border", className)} {...props} />;
+const rootVariants = cva("", {
+  variants: {
+    variant: {
+      /** Hairline-separated rows sharing one border box. */
+      flush: "divide-y divide-border border-y border-border",
+      /** Each row is its own raised card, separated by space. */
+      cards: "flex flex-col gap-4",
+    },
+  },
+  defaultVariants: { variant: "flush" },
+});
+
+const itemVariants = cva("group", {
+  variants: {
+    variant: {
+      flush: "",
+      cards: "rounded-2xl border border-border bg-surface px-6 shadow-sm sm:px-7",
+    },
+  },
+  defaultVariants: { variant: "flush" },
+});
+
+type AccordionProps = ComponentProps<typeof Root> & VariantProps<typeof rootVariants>;
+
+export function Accordion({ className, variant, ...props }: AccordionProps) {
+  return <Root className={cn(rootVariants({ variant }), className)} {...props} />;
 }
 
-export function AccordionItem({ className, ...props }: ComponentProps<typeof Item>) {
-  return <Item className={cn("group", className)} {...props} />;
+type AccordionItemProps = ComponentProps<typeof Item> & VariantProps<typeof itemVariants>;
+
+export function AccordionItem({ className, variant, ...props }: AccordionItemProps) {
+  return <Item className={cn(itemVariants({ variant }), className)} {...props} />;
 }
 
 export function AccordionTrigger({
@@ -24,17 +51,22 @@ export function AccordionTrigger({
     <Header className="flex">
       <Trigger
         className={cn(
-          "flex flex-1 items-start justify-between gap-6 py-6 text-left",
+          "flex flex-1 items-center justify-between gap-6 py-6 text-left",
           "font-display text-lg font-medium transition-colors hover:text-primary-subtle-foreground",
           className,
         )}
         {...props}
       >
         {children}
-        <Plus
+        {/* Plus while collapsed, minus while open — swapped by Radix's
+            data-state on the item, so no client state is needed here. */}
+        <span
           aria-hidden
-          className="mt-0.5 size-5 shrink-0 text-foreground-subtle transition-transform duration-200 ease-emphasis group-data-[state=open]:rotate-45"
-        />
+          className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary-subtle text-primary-subtle-foreground transition-colors duration-200 ease-emphasis"
+        >
+          <Plus className="size-4 group-data-[state=open]:hidden" />
+          <Minus className="hidden size-4 group-data-[state=open]:block" />
+        </span>
       </Trigger>
     </Header>
   );

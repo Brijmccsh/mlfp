@@ -4,6 +4,11 @@ export {
   AccordionItem,
   AccordionTrigger,
 } from "./components/accordion";
+export {
+  ArrowCircle,
+  arrowCircleVariants,
+  type ArrowCircleProps,
+} from "./components/arrow-circle";
 export { Avatar, AvatarFallback, AvatarImage } from "./components/avatar";
 export { Badge, badgeVariants, type BadgeProps } from "./components/badge";
 export { Button, buttonVariants, type ButtonProps } from "./components/button";
@@ -18,6 +23,10 @@ export {
 export { Container, type ContainerProps } from "./components/container";
 export { DottedGrid, type DottedGridProps } from "./components/dotted-grid";
 export { Eyebrow, eyebrowVariants, type EyebrowProps } from "./components/eyebrow";
+export {
+  FellowshipSeal,
+  type FellowshipSealProps,
+} from "./components/fellowship-seal";
 export { IconChip, iconChipVariants, type IconChipProps } from "./components/icon-chip";
 export { Input } from "./components/input";
 export { Label } from "./components/label";

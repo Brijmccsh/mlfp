@@ -69,10 +69,12 @@ const applicationSchema = z.object({
     .optional(),
 
   essays: z.object({
-    favorite_campaign: essaySchema,
-    promoted_something: essaySchema,
     why_join: essaySchema,
+    admired_campaign: essaySchema,
+    team_under_pressure: essaySchema,
   }),
+
+  anythingElse: optionalText(3000),
 });
 
 /** Drops keys whose value is undefined, so `details` holds no empty entries. */
@@ -100,6 +102,7 @@ export async function POST(request: Request) {
     extracurriculars: application.extracurriculars,
     ...(application.honorsAwards ? { honors_awards: application.honorsAwards } : {}),
     ...(links ? { links } : {}),
+    ...(application.anythingElse ? { anything_else: application.anythingElse } : {}),
     essays: application.essays,
   };
 

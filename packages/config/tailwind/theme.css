@@ -18,13 +18,44 @@
   --brand-ink: #0a1c48;
   --brand-blue: #4080f0;
   --brand-gold: #e0a526;
+
+  /* Hero band. It keeps this dark navy treatment in BOTH themes, so these are
+     fixed values rather than a light/dark pair. Measured against --hero-bg:
+     white 18.4:1, --hero-blue 4.94:1, --hero-gold 5.24:1. */
+  --hero-bg: #0a1231;
+  --hero-bg-raised: #0d1c4f;
+  --hero-blue: #2f80ff;
+  --hero-blue-strong: #086bff;
+  --hero-gold: #b1802a;
+  /* Surfaces used by the fixed-dark bands. Measured on --hero-card:
+     white 16.9:1, --hero-muted 8.2:1, --hero-blue 4.6:1. */
+  --hero-card: #0f1a40;
+  --hero-border: #223059;
+  --hero-muted: #a9b4d0;
+
+  /* Alternating section bands are a design decision, not a theme response, so
+     this stays light in both themes exactly as the hero stays dark. Navy
+     --hero-bg-raised on it measures 14.9:1. */
+  --section-light: #f3f5fb;
+
+  /* Quote card. Sits inside the fixed-light band, so it is fixed too. */
+  --quote-from: #1a66e8;
+  --quote-to: #0d3a8f;
+  /* Spec said #9cc6ff, which measures 4.11:1 on this gradient — under the 4.5
+     bar for small text. Lightened two steps to 4.54:1; visually the same. */
+  --quote-role: #aad0ff;
+  --quote-body: #dbe8ff;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
    SEMANTIC TOKENS — LIGHT (default)
    Components reference these names only, never a hex value.
+
+   `.light` lets a subtree opt back into these values inside a permanently
+   dark section — the mirror of scoping `.dark` onto the hero.
    ══════════════════════════════════════════════════════════════════════════ */
-:root {
+:root,
+.light {
   --background: #ffffff;
   --surface: #ffffff;
   --surface-muted: #f4f6fb;
@@ -137,6 +168,20 @@
   --color-brand-blue: var(--brand-blue);
   --color-brand-ink: var(--brand-ink);
 
+  --color-hero-bg: var(--hero-bg);
+  --color-hero-bg-raised: var(--hero-bg-raised);
+  --color-hero-blue: var(--hero-blue);
+  --color-hero-blue-strong: var(--hero-blue-strong);
+  --color-hero-gold: var(--hero-gold);
+  --color-hero-card: var(--hero-card);
+  --color-hero-border: var(--hero-border);
+  --color-hero-muted: var(--hero-muted);
+  --color-section-light: var(--section-light);
+  --color-quote-from: var(--quote-from);
+  --color-quote-to: var(--quote-to);
+  --color-quote-role: var(--quote-role);
+  --color-quote-body: var(--quote-body);
+
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-muted: var(--surface-muted);
@@ -180,9 +225,10 @@
    Theme-independent — these do not change between light and dark.
    ══════════════════════════════════════════════════════════════════════════ */
 @theme {
-  /* Fonts are loaded by next/font, which exposes these two variables. */
+  /* Fonts are loaded by next/font, which exposes these variables. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-poppins: var(--font-poppins-src), ui-sans-serif, system-ui, sans-serif;
 
   /* Editorial display scale. Tight tracking, tight leading. */
   --text-display-sm: 2rem;

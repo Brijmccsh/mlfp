@@ -2,50 +2,65 @@
 
 import { useState } from "react";
 
+import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
-import { Button, Container, Logo, ThemeToggle } from "@mlfp/ui";
+import { Container, Logo, ThemeToggle } from "@mlfp/ui";
 
 import { brand, nav } from "@/content/landing";
 
+/**
+ * The bar carries the hero's navy in both themes so it reads as one piece with
+ * the hero, and stays legible when it sticks over the light sections below.
+ * It is scoped `dark` so the theme toggle inside it renders correctly.
+ */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
-      <Container className="flex h-18 items-center justify-between gap-6">
+    <header className="dark sticky top-0 z-50 bg-hero-bg/95 font-poppins backdrop-blur-md">
+      <Container width="wide" className="flex items-center justify-between gap-6 py-4">
         <a href="#top" className="shrink-0" aria-label={brand.name}>
-          <Logo {...brand.logo} priority className="h-7 w-auto sm:h-8" />
+          <Logo
+            src={brand.logo.src}
+            srcDark={brand.logo.srcDark}
+            alt={brand.logo.alt}
+            width={brand.logo.width}
+            height={brand.logo.height}
+            className="h-[clamp(2.25rem,5.6vw,5rem)] w-auto"
+          />
         </a>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
           {nav.links.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground-muted transition-colors hover:text-foreground"
+              className="text-[0.95rem] text-white/75 transition-colors hover:text-white"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <Button asChild size="sm" className="hidden sm:inline-flex">
-            <a href={nav.cta.href}>{nav.cta.label}</a>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
+        <div className="flex items-center gap-3">
+          <ThemeToggle className="text-white/75 hover:text-white" />
+          <Link
+            href={nav.cta.href}
+            className="hidden h-11 items-center rounded-full bg-hero-blue-strong px-6 font-medium text-white transition-colors duration-200 ease-emphasis hover:bg-hero-blue sm:inline-flex"
+          >
+            {nav.cta.label}
+          </Link>
+          <button
+            type="button"
+            className="flex size-10 items-center justify-center rounded-lg text-white/80 transition-colors hover:text-white lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((value) => !value)}
           >
-            {open ? <X /> : <Menu />}
-          </Button>
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
         </div>
       </Container>
 
@@ -53,24 +68,26 @@ export function SiteHeader() {
         <nav
           id="mobile-nav"
           aria-label="Primary"
-          className="border-t border-border bg-background lg:hidden"
+          className="border-t border-white/10 bg-hero-bg lg:hidden"
         >
-          <Container className="flex flex-col py-2">
+          <Container width="wide" className="flex flex-col py-2">
             {nav.links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-border py-3.5 text-base font-medium text-foreground-muted transition-colors last:border-0 hover:text-foreground"
+                className="border-b border-white/10 py-3.5 text-base font-medium text-white/75 transition-colors last:border-0 hover:text-white"
               >
                 {link.label}
               </a>
             ))}
-            <Button asChild className="my-3 sm:hidden">
-              <a href={nav.cta.href} onClick={() => setOpen(false)}>
-                {nav.cta.label}
-              </a>
-            </Button>
+            <Link
+              href={nav.cta.href}
+              onClick={() => setOpen(false)}
+              className="my-3 inline-flex h-11 items-center justify-center rounded-full bg-hero-blue-strong px-6 font-medium text-white sm:hidden"
+            >
+              {nav.cta.label}
+            </Link>
           </Container>
         </nav>
       ) : null}
