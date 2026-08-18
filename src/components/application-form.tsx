@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
+import { toApplicationPayload } from "@/lib/application";
 import { ArrowRight } from "./ui";
 
 const STEPS = [
@@ -186,6 +187,7 @@ export function ApplicationForm() {
     { org: "", role: "", desc: "" },
   ]);
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const submitting = useRef(false);
 
   useEffect(
     () => () => {
@@ -222,7 +224,7 @@ export function ApplicationForm() {
     return e;
   }
 
-  function goNext() {
+  async function goNext() {
     const e = validate(step);
     if (Object.keys(e).length) {
       setErrors(e);
@@ -230,6 +232,35 @@ export function ApplicationForm() {
     }
     setErrors({});
     if (step === 4) {
+      // Guard the in-flight request rather than the button, so the submit
+      // control keeps the appearance the comp specifies.
+      if (submitting.current) return;
+      submitting.current = true;
+      try {
+        const res = await fetch("/api/apply", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(toApplicationPayload(form, activities)),
+        });
+        if (!res.ok) {
+          // The route supplies the applicant-facing wording for 409/503/500.
+          const body = await res.json().catch(() => null);
+          setErrors({
+            essays:
+              body?.error ??
+              "We couldn't save your application. Please try again.",
+          });
+          return;
+        }
+      } catch {
+        setErrors({
+          essays:
+            "We couldn't reach the server. Please check your connection and try again.",
+        });
+        return;
+      } finally {
+        submitting.current = false;
+      }
       setDone(true);
       window.scrollTo(0, 0);
       return;

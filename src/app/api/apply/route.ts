@@ -1,40 +1,29 @@
 import { NextResponse } from "next/server";
 
-export type Activity = {
-  organization: string;
-  role: string;
-  description: string;
-};
+import {
+  toEducationLevel,
+  toGradYear,
+  type ApplicationPayload,
+} from "@/lib/application";
+import { getSupabaseAdmin } from "@/lib/supabase-admin";
 
-export type Application = {
-  fullName: string;
-  email: string;
-  phone?: string;
-  educationLevel: string;
-  school: string;
-  gradYear: string;
-  startTerm: string;
-  testScore?: string;
-  activities: Activity[];
-  honors?: string;
-  resume?: string;
-  linkedin?: string;
-  portfolio?: string;
-  essays: [string, string, string];
-  anythingElse?: string;
-};
+export type { Activity, ApplicationPayload } from "@/lib/application";
 
-const REQUIRED = [
-  "fullName",
-  "email",
-  "educationLevel",
-  "school",
-  "gradYear",
-  "startTerm",
-] as const;
+/**
+ * Only the columns the table declares NOT NULL, which is also exactly what the
+ * form enforces before it lets someone submit. school / gradYear /
+ * educationLevel are deliberately not required here: the form labels them
+ * optional, so requiring them would 400 a valid applicant.
+ */
+const REQUIRED = ["fullName", "email", "startTerm"] as const;
+
+const SUPPORT_EMAIL = "admin@themlfp.com";
+
+/** Postgres unique_violation — the (lower(email), cohort) index. */
+const UNIQUE_VIOLATION = "23505";
 
 export async function POST(request: Request) {
-  let body: Partial<Application>;
+  let body: Partial<ApplicationPayload>;
 
   try {
     body = await request.json();
@@ -50,10 +39,65 @@ export async function POST(request: Request) {
     );
   }
 
-  // TODO: deliver the application (email, CRM, or datastore) before launch.
-  // Returning 501 rather than 200 so a submission is never silently dropped.
-  return NextResponse.json(
-    { error: "Application delivery is not configured yet" },
-    { status: 501 },
-  );
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    return NextResponse.json(
+      {
+        error: `We can't accept applications right now. Please email ${SUPPORT_EMAIL} and we'll take it from there.`,
+      },
+      { status: 503 },
+    );
+  }
+
+  const application = body as ApplicationPayload;
+
+  const { data, error } = await supabase
+    .from("applications")
+    .insert({
+      cohort: application.startTerm,
+      full_name: application.fullName,
+      // Lowercased to match the unique index on (lower(email), cohort).
+      email: application.email.toLowerCase(),
+      phone: application.phone ?? null,
+      education_level: toEducationLevel(application.educationLevel),
+      school: application.school ?? null,
+      grad_year: toGradYear(application.gradYear),
+      test_score: application.testScore ?? null,
+      details: {
+        activities: application.activities ?? [],
+        honors: application.honors ?? null,
+        links: {
+          resume: application.resume ?? null,
+          linkedin: application.linkedin ?? null,
+          portfolio: application.portfolio ?? null,
+        },
+        essays: application.essays ?? [],
+        anythingElse: application.anythingElse ?? null,
+        // education_level collapses five form labels into two buckets; keeping
+        // the raw label means no answer is lost if the CHECK is widened later.
+        educationLevelLabel: application.educationLevel ?? null,
+      },
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    if (error.code === UNIQUE_VIOLATION) {
+      return NextResponse.json(
+        {
+          error:
+            "It looks like you've already applied for this cohort with that email address.",
+        },
+        { status: 409 },
+      );
+    }
+
+    console.error("[apply] insert failed", error);
+    return NextResponse.json(
+      { error: "We couldn't save your application. Please try again." },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json({ id: data.id }, { status: 201 });
 }
