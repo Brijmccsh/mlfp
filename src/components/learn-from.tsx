@@ -33,7 +33,7 @@ const PRESS = [
     title: "Chad Tons Family Café unveiled at USC's Fertitta Hall",
   },
   {
-    href: "https://www.marshall.usc.edu/posts/chad-tons-caf-unveiled-in-fertitta-hall",
+    href: "https://www.usatoday.com/story/special/contributor-content/2026/08/11/notable-entrepreneurs-of-2026/91260640007/",
     img: "/press/chad-tons-portrait.png",
     alt: "Chad Tons portrait",
     pos: "48% 32%",
@@ -100,6 +100,8 @@ export function LearnFrom() {
       >
         <a
           href="https://www.marshall.usc.edu/posts/marshall-alumni-reconnect-at-leadership-summit"
+          target="_blank"
+          rel="noopener noreferrer"
           data-m="press-hero"
           style={{
             gridColumn: "1 / -1",
@@ -190,7 +192,14 @@ export function LearnFrom() {
         </a>
 
         {PRESS.map((p) => (
-          <a key={p.title} href={p.href} data-m="press-card" style={cardShell}>
+          <a
+            key={p.title}
+            href={p.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-m="press-card"
+            style={cardShell}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={p.img}
